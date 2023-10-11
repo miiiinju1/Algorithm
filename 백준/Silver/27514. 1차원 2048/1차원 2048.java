@@ -9,9 +9,9 @@ public class Main {
     static HashMap<Long, Integer> map;
     static void put(Long val)
     {
-        if (!map.containsKey(val)) 
+        if (!map.containsKey(val))
             map.put(val, 1);
-        
+
         else {
             map.remove(val);
             put(2 * val);
@@ -21,14 +21,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        long[] arr = new long[N];
+        map = new HashMap<>();
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=0;i<N;i++)
-            arr[i]=Long.parseLong(st.nextToken());
-        map = new HashMap<>();
-        for(int i= 0;i<N;i++)
-            put(arr[i]);
-        
+            put(Long.parseLong(st.nextToken()));
+
+
         System.out.println(Collections.max(map.keySet()));
     }
 }
