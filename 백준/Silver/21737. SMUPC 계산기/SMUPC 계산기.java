@@ -1,5 +1,6 @@
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -15,37 +16,33 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
         int N = Integer.parseInt(br.readLine());
         Operator[] operator = new Operator[N];
+
+
         String str = br.readLine();
-        int strLen = str.length();
+
         int index=0;
-        for(int i=0;i<strLen;i++)
+        for(int i=0;i<str.length();i++)
         {
             if (str.charAt(i) >= 65)
                 operator[index++] = new Operator( i,str.charAt(i));
+
         }
         int beforeIndex=0;
-        Long[] list = new Long[1000000];
 
-        index = 0;
+        ArrayList<Long> list = new ArrayList<>();
         for(int i= 0;i<N;i++) {
-            int diff =operator[i].index-beforeIndex;
-            if (diff > 0) {
-                long value = 0;
-                for (int j = beforeIndex; j < operator[i].index; j++) {
-                    char currentChar = str.charAt(j);
-                    value = value * 10 + (currentChar - '0');
-                }
-                list[index++] = value;
+            if(beforeIndex!=operator[i].index) {
+                String substr = str.substring(beforeIndex, operator[i].index);
+                if (!substr.equals(""))
+                    list.add(Long.parseLong(substr));
             }
             beforeIndex = operator[i].index+1;
         }
 
 
-        long sum = list[0];
-        int listLen = index;
+        long sum = list.get(0);
         int j= 1,count =0;
         for(int i= 0;i<N;i++)
         {
@@ -53,34 +50,34 @@ public class Main {
             switch(op){
 
                 case 'S':
-                    if(j>=listLen)
+                    if(j>=list.size())
                         break;
-                    sum-= list[j++];
+                    sum-=list.get(j++);
                     break;
                 case 'M':
-                    if(j>=listLen)
+                    if(j>=list.size())
                         break;
-                    sum *= list[j++];
+                    sum *= list.get(j++);
                     break;
 
                 case 'U':
-                    if(j>=listLen)
+                    if(j>=list.size())
                         break;
 
                     if(sum<0)
                     {
                         sum*=-1;
-                        sum /= list[j++];
+                        sum /= list.get(j++);
                         sum*=-1;
                     }
                     else
-                        sum /= list[j++];
+                        sum /= list.get(j++);
                     break;
 
                 case 'P':
-                    if(j>=listLen)
+                    if(j>=list.size())
                         break;
-                    sum += list[j++];
+                    sum += list.get(j++);
                     break;
                 case 'C':
                     count++;
