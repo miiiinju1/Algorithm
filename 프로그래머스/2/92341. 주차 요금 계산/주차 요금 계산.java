@@ -2,18 +2,6 @@ import java.util.*;
 import java.time.*;
 import java.time.format.*;
 
-class Record {
-    LocalTime time;
-    String number;
-    
-    public int hashCode() {
-        return number.hashCode();
-    }
-    public boolean equals(Object o) {
-        return this.number.equals(((Record)o).number);
-    }
-    
-}
 class Solution {
     public int[] solution(int[] fees, String[] records) {
         HashMap<String,LocalTime> map = new HashMap<>();
@@ -43,7 +31,7 @@ class Solution {
             }
             
         }
-        System.out.println(result);
+        
         //남은 차
         //23:59
         LocalTime outTime = LocalTime.parse("23:59",DateTimeFormatter.ofPattern("HH:mm"));
@@ -63,19 +51,13 @@ class Solution {
         for(String number: result.keySet()) {
             Long minutes=result.get(number); //시간
             
-            if(minutes<=fees[0])
-                resultList.add(fees[1]);
-            else {
-                int sum = fees[1];
-                System.out.print(minutes+" ");
-                
-                sum += ((minutes-fees[0])/fees[2])*fees[3];
-                if((minutes-fees[0])%fees[2]!=0) 
-                    sum+=fees[3];
-                
-                resultList.add(sum);
-                
+            //기본요금만
+            int sum = fees[1];
+            if(minutes>fees[0]) {//추가요금 받을 경우
+                sum += (Math.ceil((double)(minutes-fees[0])/fees[2]))*fees[3];
             }
+            
+            resultList.add(sum);
         }
         
         int[] answer = new int[resultList.size()];
