@@ -37,7 +37,7 @@ class Solution {
         
         
     }
-    static ArrayList<String> list = new ArrayList<>();
+    static PriorityQueue<String> list = new PriorityQueue<>();
     
     static void resultCalc() {
         
@@ -67,8 +67,7 @@ class Solution {
         for(int i : course) { 
             map = new HashMap<>();
             for(String order: orders) {
-                String temp =
-                    Stream.of(order.split(""))
+                String temp = Stream.of(order.split(""))
                     .sorted()
                     .collect(Collectors.joining());
                 combination(temp,i);
@@ -76,12 +75,10 @@ class Solution {
             }
             resultCalc(); 
         }
-        Collections.sort(list);
         
         String[] answer = new String[list.size()];
         for(int i =0;i<answer.length;i++) {
-            
-          answer[i] = list.get(i);
+          answer[i] = list.poll();
         }
         return answer;
     }
