@@ -59,9 +59,8 @@ class Solution {
            
            sb.append(")");
            String deleted = u.substring(1,u.length()-1);
-           
-           for(char c : deleted.toCharArray()) {
-               if(c=='(') {
+           for(int i= 1;i<u.length()-1;i++) {
+               if(u.charAt(i)=='(') {
                    sb.append(")");
                }
                else {
