@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.*;
 class Solution {
     static HashMap<String,Integer> map;
     
@@ -7,12 +8,7 @@ class Solution {
     static void search(StringBuilder temp,String str, int start,int len,int count)  {
 
         if(len==count) {
-            String result = temp.toString().chars()    
-                            .sorted()
-                            .collect(StringBuilder::new,
-                                    StringBuilder::appendCodePoint,
-                                    StringBuilder::append)
-                            .toString();
+            String result = temp.toString();
             if(map.containsKey(result)) {
                 map.replace(result,map.get(result)+1);
             
@@ -71,8 +67,11 @@ class Solution {
         for(int i : course) { 
             map = new HashMap<>();
             for(String order: orders) {
-                
-                combination(order,i);
+                String temp =
+                    Stream.of(order.split(""))
+                    .sorted()
+                    .collect(Collectors.joining());
+                combination(temp,i);
                 
             }
             resultCalc(); 
