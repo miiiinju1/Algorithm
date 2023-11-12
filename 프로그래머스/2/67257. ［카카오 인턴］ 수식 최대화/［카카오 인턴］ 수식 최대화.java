@@ -27,28 +27,6 @@ class Solution {
     static long calculate(ArrayList<String> 수식, int index) {
         ArrayList<String> 우선순위 = testCase.get(index);
         
-//         ArrayList<String> 수식 = new ArrayList<>();    
-//         StringBuilder sb= new StringBuilder();
-//         for(int i= 0;i<expression.length();i++) {
-            
-//             char now = expression.charAt(i);
-            
-//             if(now=='*'||now=='+'||now=='-')
-//                {
-//                    수식.add(sb.toString());
-//                    sb = new StringBuilder();
-//                    수식.add(String.format("%c",now));
-//                }
-//             else {
-//                 sb.append(now);
-//             }
-               
-              
-//         }
-//         수식.add(sb.toString());
-        
-        System.out.println(수식);
-        
         for(int i= 0;i<우선순위.size();) {
             
             String 연산자 = 우선순위.get(i);
@@ -73,10 +51,6 @@ class Solution {
             }
             
         }
-        
-        
-        System.out.println(수식);
-        
         
         return Long.parseLong(수식.get(0));
         
@@ -127,7 +101,6 @@ class Solution {
             
             
         }
-       // calculate(new ArrayList<String>(수식),0);
         
         long answer = max;
         return answer;
