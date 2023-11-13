@@ -1,9 +1,9 @@
+import java.util.*;
 class Solution {
     
     static int compress(String str, int 단위) {
         int count = 0;
         String before = str.substring(0,단위);
-        
         int nowCount=1;
         int i = 단위;
         for(;i<str.length()-단위;i+=단위) {
@@ -15,7 +15,6 @@ class Solution {
             else {
                 if(nowCount>1) {
                    count+= String.valueOf(nowCount).length();
-                    
             }
                 count+=(before.length());
                 
@@ -62,7 +61,6 @@ class Solution {
           }
         if(s.length()==1)
             min =1;
-        
         
         
         return min;
