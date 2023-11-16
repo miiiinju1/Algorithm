@@ -5,45 +5,22 @@ class Solution {
         int c1 = skill[2];
         int r2 = skill[3];
         int c2 = skill[4];
-        int degree = skill[5]; 
-/*
--2 0 0 2
-0      0
-0      0
-0      0
-2 0 0 -2
-*/
-        
-        /*
-        -2 0 2
-        0 0 0
-        0 0 0
-        */
+        int degree = skill[5];
         board[r1][c1] -= degree;
         r2 +=1;
-        c2+=1;
-         try {
+        c2 +=1;
+        if(c2<board[0].length){ //시작 x좌표가 넘지 않는 격ㅇ우
             board[r1][c2] += degree;
-         }
-         catch (ArrayIndexOutOfBoundsException e) {
-            ;
         }
-        try {
+        if(r2<board.length) 
             board[r2][c1] +=degree;
-        }
-         catch (ArrayIndexOutOfBoundsException e) {
-            ;
-        }
-    
-        try {
-            board[r2][c2] -=degree;
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
-            ;
-        }
-    
-        
-          
+
+        if((c2<board[0].length)&&(r2<board.length))
+            board[r2][c2]-=degree;
+
+
+
+
     }
     static void heal (int[] skill) {
         int r1 = skill[1];
@@ -53,28 +30,18 @@ class Solution {
         int degree = skill[5];
         board[r1][c1] += degree;
         r2 +=1;
-        c2+=1;
-         try {
+        c2 +=1;
+        if(c2<board[0].length){ //시작 x좌표가 넘지 않는 격ㅇ우
             board[r1][c2] -= degree;
-         }
-         catch (ArrayIndexOutOfBoundsException e) {
-            ;
+
         }
-        try {
-            board[r2][c1] -= degree;
-        }
-         catch (ArrayIndexOutOfBoundsException e) {
-            ;
-        }
-    
-        try {
-            board[r2][c2] +=degree;
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
-            ;
-        }
-     
-        
+        if(r2<board.length) 
+            board[r2][c1] -=degree;
+        if((c2<board[0].length)&&(r2<board.length))
+            board[r2][c2]+=degree;
+
+
+
     }
     public int solution(int[][] b, int[][] skills) {
         board  = new int[b.length][b[0].length];
@@ -86,9 +53,9 @@ class Solution {
                 heal(skill);
             }
         }
-        int count=0;
-      
-        
+        int answer=0;
+
+
         for(int i=0;i<b.length;i++) {
             for(int j= 1;j<b[0].length;j++) {
                 board[i][j] += board[i][j-1]; 
@@ -103,12 +70,11 @@ class Solution {
             for(int j= 0;j<b[0].length;j++) {
                 b[i][j]+=board[i][j];
                 if(b[i][j]>0)
-                    count++;
+                    answer++;
             }
         }
-        
-          
-        int answer = count;
+
+
         return answer;
     }
 }
