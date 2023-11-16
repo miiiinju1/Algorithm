@@ -5,9 +5,7 @@ class Solution {
         int c1 = skill[2];
         int r2 = skill[3];
         int c2 = skill[4];
-        int degree = skill[5];
-        
-        
+        int degree = skill[5]; 
 /*
 -2 0 0 2
 0      0
@@ -24,15 +22,25 @@ class Solution {
         board[r1][c1] -= degree;
         r2 +=1;
         c2+=1;
-        if(c2<board[0].length){ //시작 x좌표가 넘지 않는 격ㅇ우
+         try {
             board[r1][c2] += degree;
+         }
+         catch (ArrayIndexOutOfBoundsException e) {
+            ;
         }
-        if(r2<board.length) 
+        try {
             board[r2][c1] +=degree;
-        
-        if((c2<board[0].length)&&(r2<board.length))
-            board[r2][c2]-=degree;
-      
+        }
+         catch (ArrayIndexOutOfBoundsException e) {
+            ;
+        }
+    
+        try {
+            board[r2][c2] -=degree;
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            ;
+        }
     
         
           
@@ -46,15 +54,25 @@ class Solution {
         board[r1][c1] += degree;
         r2 +=1;
         c2+=1;
-        if(c2<board[0].length){ //시작 x좌표가 넘지 않는 격ㅇ우
+         try {
             board[r1][c2] -= degree;
-            
+         }
+         catch (ArrayIndexOutOfBoundsException e) {
+            ;
         }
-        if(r2<board.length) 
-            board[r2][c1] -=degree;
-        if((c2<board[0].length)&&(r2<board.length))
-            board[r2][c2]+=degree;
-      
+        try {
+            board[r2][c1] -= degree;
+        }
+         catch (ArrayIndexOutOfBoundsException e) {
+            ;
+        }
+    
+        try {
+            board[r2][c2] +=degree;
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            ;
+        }
      
         
     }
