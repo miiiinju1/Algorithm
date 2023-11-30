@@ -10,13 +10,13 @@ public class Main {
     static int[] dy;
     static int[] dx;
     static int[][][] valueMap;
-    static String[][] map;
-    static String[] str;
+    static char[][] map;
+    static char[] str;
 
     static int dfs(int startY, int startX, int index) {
 
         if(index == str.length-1 ) {
-            if(str[index].equals(map[startY][startX])) {
+            if(str[index]==(map[startY][startX])) {
                 valueMap[startY][startX][index] = 1;
                 return 1;
             }
@@ -25,7 +25,7 @@ public class Main {
             }
         }
         else {
-            if(!str[index].equals(map[startY][startX])) {
+            if(!(str[index]==(map[startY][startX]))) {
                 return 0;
             } else {
                 if(valueMap[startY][startX][index]!=-1) {
@@ -70,13 +70,13 @@ public class Main {
         }
         dy = list_dy.stream().mapToInt(i -> i).toArray();
         dx = list_dx.stream().mapToInt(i -> i).toArray();
-        map = new String[N][M];
+        map = new char[N][M];
 
         for (int i = 0; i < N; i++) {
-            map[i] = br.readLine().split("");
+            map[i] = br.readLine().toCharArray();
         }
 
-        str = br.readLine().split("");
+        str = br.readLine().toCharArray();
         valueMap = new int[N][M][str.length];
         for(int i = 0;i<N;i++) {
             for(int j= 0;j<M;j++) {
@@ -89,12 +89,11 @@ public class Main {
 
         for(int i= 0;i<N;i++){
             for (int j = 0; j < M; j++) {
-                if (map[i][j].equals(str[0])) {
+                if (map[i][j]==(str[0])) {
                     sum+=dfs(i,j,0);
                 }
             }
         }
-
 
         System.out.println(sum);
 
