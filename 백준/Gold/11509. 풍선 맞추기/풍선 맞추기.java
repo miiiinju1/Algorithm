@@ -21,12 +21,7 @@ public class Main {
                     map.replace(now, map.get(now) - 1);
                 }
             }
-            if(map.containsKey(next)) {
-                map.replace(next, map.get(next) + 1);
-            }
-            else {
-                map.put(next, 1);
-            }
+            map.put(next, map.getOrDefault(next, 0) + 1);
         }
         int sum = 0;
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
