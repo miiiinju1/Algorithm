@@ -1,27 +1,24 @@
-
 import java.io.*;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
     static class Student implements Comparable<Student> {
-        int a, b,distance;
+        int a, b;
 
         public Student(int a, int b) {
             this.a = a;
             this.b = b;
-            distance = b-a;
         }
 
         @Override
         public int compareTo(Student o) {
             if (o.a == this.a) {
                 return this.b-o.b;
-
             }
             return o.a-this.a;
         }
-    
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -32,7 +29,6 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int N = Integer.parseInt(st.nextToken());
             int M = Integer.parseInt(st.nextToken());
-
             Student[] ary = new Student[M];
             boolean[] visited =new boolean[N+1];
             int[] indexs = new int[N+1];
