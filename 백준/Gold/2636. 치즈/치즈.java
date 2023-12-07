@@ -6,44 +6,15 @@ import java.util.StringTokenizer;
 
 public class Main {
     static class Point {
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Point point = (Point) o;
-
-            if (y != point.y) return false;
-            return x == point.x;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = y;
-            result = 31 * result + x;
-            return result;
-        }
-
+        
         int y, x;
 
         public Point(int y, int x) {
             this.y = y;
             this.x = x;
         }
-
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("Point{");
-            sb.append("y=").append(y);
-            sb.append(", x=").append(x);
-            sb.append('}');
-            return sb.toString();
-        }
     }
-
     static int[][] map;
-
-
     static int[] dy = {-1, 0, 1, 0};
     static int[] dx = {0, -1, 0, 1};
     static int N, M;
@@ -81,12 +52,7 @@ public class Main {
 
             }
         }
-//        for(int i= 0;i<N;i++) {
-//            System.out.println();
-//            for (int j = 0; j < M; j++) {
-//                System.out.printf("%5d ",map[i][j]);
-//            }
-//        }
+
 
     }
 
@@ -111,22 +77,14 @@ public class Main {
                 map[i][j] = temp;
             }
         }
-//        for(int i= 0;i<N;i++) {
-//            System.out.println();
-//            for (int j = 0; j < M; j++) {
-//                System.out.printf("%5d ",map[i][j]);
-//            }
-//        }
+
         int sum = 1;
         while (count > 0) {
             int temp = count;
             count = 0;
-//
-//            System.out.println();
             bfsAir(0,0,sum);
 
             if (count == 0) {
-
                 System.out.println(sum-1);
                 System.out.println(temp);
                 return;
