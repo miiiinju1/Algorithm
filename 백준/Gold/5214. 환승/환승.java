@@ -51,12 +51,15 @@ public class Main {
                 return ;
             }
             for (Integer i : station.get(now.now)) {
-                for (Integer integer : hypertube[i]) {
-                    if(!hyperVisited[i]&&!visited[integer]) {
-                        q.add(new Point(integer, now.depth + 1));
+                if(!hyperVisited[i]) {
+                    for (Integer integer : hypertube[i]) {
+                        if (!visited[integer]) {
+                            q.add(new Point(integer, now.depth + 1));
 
+                        }
                     }
-                }hyperVisited[i]= true;
+                    hyperVisited[i] = true;
+                }
             }
         }
         System.out.println(-1);
