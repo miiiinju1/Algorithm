@@ -10,7 +10,7 @@ public class Main {
             return v;
         }
         else {
-            map.put(v,find(map.get(v)));
+            map.replace(v,find(map.get(v)));
             return map.get(v);
         }
     }
@@ -18,18 +18,16 @@ public class Main {
         String findA = find(a);
         String findB = find(b);
         if (!findA.equals(findB)) {
-            if (size.get(findA) < size.get(findB)) {
-                map.replace(findA, findB);
-                size.replace(findB, size.get(findB) + size.get(findA));
-            } else {
-                map.replace(findB, findA);
-                size.replace(findA, size.get(findA) + size.get(findB));
-                findB = findA;
+            if(size.get(findA)>size.get(findB)) {
+                String temp = findA;
+                findA = findB;
+                findB = temp;
             }
-            bw.write(size.get(findB) + "\n");
-        } else {
-            bw.write(size.get(findA) + "\n");
+            map.replace(findA, findB);
+            size.replace(findB, (size.get(findB)+size.get(findA)));
         }
+        bw.write(size.get(findB)+"\n");
+
     }
 
     static HashMap<String, Integer> size = new HashMap<>();
@@ -57,12 +55,8 @@ public class Main {
                 }
                 union(a,b);
             }
-
-
-
-
-
         }
         bw.flush();bw.close();
     }
 }
+
