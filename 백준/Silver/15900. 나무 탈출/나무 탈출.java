@@ -10,13 +10,13 @@ public class Main {
 
 
     static void search(int now, long depth) {
-//        if(visited[now]) {
-//            return ;
-//        }
+
         if(!visited[now]&&now!=1&&map.get(now).size()==1) {
             count+=depth;
         }
-//        System.out.println("now = " + now);
+        if(visited[now]) {
+            return ;
+        }
         visited[now] = true;
 
         for (Integer next : map.get(now)) {
@@ -30,17 +30,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        HashSet<Integer> set = new HashSet<>();
 
         for(int n = 1;n<=N;n++) {
             map.put(n, new ArrayList<>());
-            set.add(n);
         }
 
         visited = new boolean[N + 1];
         visited[0] = true;
-
-
 
         for(int i = 1;i<N;i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -51,11 +47,6 @@ public class Main {
         }
 
         search(1,0);
-//        for (Map.Entry<Integer, ArrayList<Integer>> entry : map.entrySet()) {
-//            System.out.println(entry.getKey() + ": " + entry.getValue());
-//        }
-//
-//        System.out.println(count);
 
         if(count%2==1) {
             System.out.println("Yes");
