@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static class Airport implements Comparable<Airport> {
@@ -12,7 +9,6 @@ public class Main {
         int next, value;
 
         public Airport(int next, int value) {
-
             this.next = next;
             this.value = value;
         }
@@ -23,7 +19,7 @@ public class Main {
         }
     }
 
-    static HashMap<Integer, PriorityQueue<Airport>> map = new HashMap<>();
+    static HashMap<Integer, ArrayList<Airport>> map = new HashMap<>();
 
     static int N,M,K;
     public static void main(String[] args) throws IOException {
@@ -35,7 +31,7 @@ public class Main {
         K = Integer.parseInt(st.nextToken());
 
         for(int i = 1;i<=N;i++) {
-            map.put(i, new PriorityQueue<>());
+            map.put(i, new ArrayList<>());
         }
         for (int k = 0; k < K; k++) {
             st = new StringTokenizer(br.readLine());
@@ -57,10 +53,10 @@ public class Main {
                 }
             }
         }
-        PriorityQueue<Long> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        long max = 0;
         for(int m =0;m<M;m++) {
-            pq.add(dp[m][N]);
+            max = Math.max(dp[m][N],max);
         }
-        System.out.println(pq.poll());
+        System.out.println(max);
     }
 }
