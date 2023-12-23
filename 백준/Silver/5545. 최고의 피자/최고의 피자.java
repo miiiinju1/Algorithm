@@ -14,22 +14,22 @@ public class Main {
         int A = Integer.parseInt(st.nextToken());
         int B = Integer.parseInt(st.nextToken());
 
-        int dough = Integer.parseInt(br.readLine())*1000;
+        double dough = Double.parseDouble(br.readLine());
 
-        int max = dough/A;
+        double max = dough/A;
         PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
         for(int n = 0;n<N;n++) {
             pq.add(Integer.parseInt(br.readLine()));
         }
-        int before = dough;
+        double before = dough;
 
         while(!pq.isEmpty()) {
             Integer topping = pq.poll();
-            before+=(topping*1000);
+            before+=topping;
             A+=B;
 
             if(before/A<=max) {
-                System.out.println(max/1000);
+                System.out.println((int)max);
 
                 return ;
             }
@@ -39,7 +39,6 @@ public class Main {
             
         }
 
-        System.out.println(max/1000);
-
+  System.out.println((int)max);
     }
 }
