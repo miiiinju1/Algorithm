@@ -1,66 +1,65 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int find(int v) {
-        if(parent[v] ==v ) return v;
-        parent[v] = find(parent[v]);
-        return parent[v];
-    }
+    static int[] schedule;
+    static boolean[] visited;
+    static void search(int now) {
+        if(visited[now])
+            return;
 
-    static void union(int a, int b) {
-        int fa = find(a);
-        int fb = find(b);
-
-        if(fa!=fb) {
-            if(size[fa]>size[fb]) {
-                int temp = fa;
-                fa = fb;
-                fb = temp;
+        visited[now] = true;
+        for (Integer next : map.get(now)) {
+            if(!visited[next]) {
+                search(next);
             }
-
-            parent[fa] = parent[fb];
-            size[fb] += size[fa];
         }
-
     }
-    static int[] parent;
-    static int[] size;
+    static int N,M;
+    static HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-
-        parent = new int[N+1];
-        for(int i = 1;i<=N;i++) {
-            parent[i] = i;
+        N = Integer.parseInt(br.readLine());
+        M = Integer.parseInt(br.readLine());
+        schedule = new int[M];
+        visited = new boolean[N+1];
+        for (int i = 1; i <= N; i++) {
+            map.put(i, new ArrayList<>());
         }
-        size = new int[N+1];
-        int M = Integer.parseInt(br.readLine());
 
         for(int n = 1;n<=N;n++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             for(int i = 1;i<=N;i++) {
                 if (st.nextToken().equals("1")) {
-                    union(n, i);
+                    map.get(n).add(i);
+                    map.get(i).add(n);
                 }
             }
         }
-
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int temp = find(Integer.parseInt(st.nextToken()));
-        for (int m = 1; m < M; m++) {
-            int schedule = Integer.parseInt(st.nextToken());
 
-            int p = find(schedule);
-            if(temp!=p) {
-                System.out.println("NO");
-                return ;
-            }
 
+        boolean possible = true;
+        for(int m = 0;m<M;m++) {
+            schedule[m] = Integer.parseInt(st.nextToken());
 
         }
-        System.out.println("YES");
+        search(schedule[0]);
+        for(int m = 0;m<M;m++) {
+            if (!visited[schedule[m]]) {
+                possible = false;
+            }
+        }
+        if(possible) {
+            System.out.println("YES");
+
+        }
+        else {
+            System.out.println("NO");
+        }
     }
 }
