@@ -36,11 +36,13 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
-        parent = new int[N];
+        parent = new int[N]; 
+        size = new int[N];
         for(int i =0;i<N;i++) {
             parent[i]=i;
+            size[i] = 1;
         }
-        size = new int[N];
+      
         int M = Integer.parseInt(st.nextToken());
 
         for(int m = 1;m<=M;m++) {
