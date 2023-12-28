@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.PriorityQueue;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -15,8 +14,6 @@ public class Main {
                 bw.write(i+"\n");
             }
         }
-        
         bw.flush();bw.close();
     }
-
 }
