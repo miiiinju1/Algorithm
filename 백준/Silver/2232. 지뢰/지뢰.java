@@ -1,22 +1,10 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class Main {
     static class Mine {
         int num, p;
-
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("Mine{");
-            sb.append("num=").append(num);
-            sb.append(", p=").append(p);
-            sb.append('}');
-            return sb.toString();
-        }
-
         public Mine(int num, int p) {
             this.num = num;
             this.p = p;
@@ -52,6 +40,7 @@ public class Main {
     static int N;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         N = Integer.parseInt(br.readLine());
 
         ArrayList<Integer> result = new ArrayList<>();
@@ -64,19 +53,22 @@ public class Main {
         }
         while (!pq.isEmpty()) {
             final Mine mine = pq.poll();
-//            System.out.println("mine = " + mine);
-
             if(find(mine.p, mine.num)) {
                 result.add(mine.num);
             }
-//            for (int i : ary) {
-//                System.out.print(i+" ");
-//            }
-//            System.out.println();
+//
         }
 
 
-        result.stream().sorted().forEach(System.out::println);
+        result.stream().sorted().forEach(c -> {
+            try {
+                bw.write(c+"\n");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        bw.flush();
+bw.close();
 
     }
 }
