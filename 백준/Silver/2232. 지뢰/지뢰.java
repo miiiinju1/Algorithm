@@ -11,7 +11,8 @@ public class Main {
         }
         for(int i =1;i<=N;i++) {
             if(ary[i]>=ary[i-1]&&ary[i]>=ary[i+1]) {
-                bw.write(i+"\n");
+                bw.write(String.valueOf(i));
+                bw.write("\n");
             }
         }
         bw.flush();bw.close();
