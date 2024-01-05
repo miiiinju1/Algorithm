@@ -31,14 +31,19 @@ public class Main {
         }
         int max = 0;
         for(int k = 1;k<=N;k++) {
-            for(int i= 1;i<=N;i++) {
-                for(int j = 1;j<=N;j++) {
-                    map[i][j] = Math.min(map[i][k] + map[k][j], map[i][j]);
+            
 
+
+                for (int i = 1; i <= N; i++) {
+                    if (map[i][k] != Integer.MAX_VALUE/2) {
+                    for (int j = 1; j <= N; j++) {
+                        map[i][j] = Math.min(map[i][k] + map[k][j], map[i][j]);
+
+                    }
                 }
             }
         }
-        
+
         for(int i= 1;i<=N;i++) {
             if (map[i][X] != Integer.MAX_VALUE / 2) {
                 max = Math.max(max, map[i][X]+map[X][i]);
