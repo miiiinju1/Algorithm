@@ -20,20 +20,13 @@ public class Main {
         for(int i= 1;i<M;i++) {
             if(ary[i]>ary[i-1]) {
                 dp[i] = dp[i-1]+1;
+                dp2[i] = 1;
             }else if(ary[i]<ary[i-1]){
                 dp[i] = 1;
+                dp2[i] = dp2[i-1]+1;
             }
             else {
                 dp[i] = dp[i-1];
-            }
-            ////////////////////
-            if(ary[i]<ary[i-1]) {
-                dp2[i] = dp2[i-1]+1;
-            }
-            else if(ary[i]>ary[i-1]){
-                dp2[i] = 1;
-            }
-            else {
                 dp2[i] = dp2[i-1];
             }
         }
