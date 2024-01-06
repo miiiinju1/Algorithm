@@ -24,10 +24,7 @@ public class Main {
             }
             return Long.compare(this.cost,o.cost);
         }
-
-
     }
-
     static HashMap<Integer, PriorityQueue<Node>> map = new HashMap<>();
     public static void main(String[] args) throws IOException {
 
@@ -63,7 +60,6 @@ public class Main {
              Node now = pq.poll();
 
             if (visitCost[now.next] < now.cost && timeCost[now.next] < now.time) {
-
                 continue;
             }
 
@@ -72,10 +68,6 @@ public class Main {
 
              if(now.next==N) {
                  if(now.time<=T) {
-//                     for (long l : visitCost) {
-//                         System.out.print(l+" ");
-//                     }
-//                     System.out.println();
                      System.out.println(now.cost);
                      return ;
                  }
@@ -91,13 +83,3 @@ public class Main {
 
     }
 }
-//6
-//10 10000
-//7
-//1 2 1 1
-//1 3 2 2
-//1 4 1 1
-//2 5 1 9
-//3 5 3 3
-//4 5 9 1
-//5 6 5 1
