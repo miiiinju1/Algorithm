@@ -41,7 +41,6 @@ public class Main {
             int cost = Integer.parseInt(st.nextToken());
 
             map.get(a).add(new Node(b, cost));
-//            map.get(b).add(new Node(a, cost));
 
         }
 
@@ -61,6 +60,7 @@ public class Main {
 
             for (Node node : map.get(now.next)) {
                 if (distance[node.next] > now.weight + node.weight) {
+                    distance[node.next] = now.weight+node.weight;
                     pq.add(new Node(node.next, now.weight + node.weight));
                 }
             }
