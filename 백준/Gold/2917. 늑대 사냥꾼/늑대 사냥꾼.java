@@ -18,29 +18,25 @@ public class Main {
     }
 
     static class Point implements Comparable<Point> {
-        int y,x,distance;
+        int y,x;
         int min;
         public Point(int y, int x) {
             this.y = y;
             this.x = x;
         }
 
-        public Point(int y, int x, int distance) {
-            this.y = y;
-            this.x = x;
-            this.distance = distance;
-        }
+        
 
-        public Point(int y, int x, int distance, int min) {
+        public Point(int y, int x, int min) {
             this.y = y;
             this.x = x;
-            this.distance = distance;
+            
             this.min = min;
         }
 
         @Override
         public int compareTo(Point o) {
-            return Integer.compare(o.distance,this.distance);
+            return Integer.compare(o.min,this.min);
         }
     }
 
@@ -104,7 +100,7 @@ public class Main {
         PriorityQueue<Point> pq = new PriorityQueue<>();
 
         int temp = distanceMap[start.y][start.x];
-        pq.add(new Point(start.y, start.x, temp,temp));
+        pq.add(new Point(start.y, start.x,temp));
 
         visited[start.y][start.x] = true;
 
@@ -113,7 +109,6 @@ public class Main {
 
             if(now.y==target.y&&now.x==target.x) {
                 System.out.println(now.min);
-
                 return ;
             }
             for(int d= 0;d<4;d++) {
@@ -122,15 +117,10 @@ public class Main {
 
                 if(y>=0&&x>=0&&y<N&&x<M&&!visited[y][x]&&map[y][x]!='+') {
                     int distance = distanceMap[y][x];
-                    pq.add(new Point(y, x, distance, Math.min(now.min, distance)));
+                    pq.add(new Point(y, x, Math.min(now.min, distance)));
                     visited[y][x] = true;
-
-
                 }
-
-
             }
-
         }
         System.out.println(0);
 
