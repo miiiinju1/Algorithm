@@ -19,7 +19,7 @@ public class Main {
 
     static class Point implements Comparable<Point> {
         int y,x,distance;
-        
+        int min;
         public Point(int y, int x) {
             this.y = y;
             this.x = x;
@@ -31,6 +31,13 @@ public class Main {
             this.distance = distance;
         }
 
+        public Point(int y, int x, int distance, int min) {
+            this.y = y;
+            this.x = x;
+            this.distance = distance;
+            this.min = min;
+        }
+
         @Override
         public int compareTo(Point o) {
             return Integer.compare(o.distance,this.distance);
@@ -38,8 +45,6 @@ public class Main {
     }
 
     static void distance (List<Node> trees) {
-
-
         ArrayDeque<Node> q = new ArrayDeque<>();
         for (Node tree : trees) {
             distanceMap[tree.y][tree.x] = tree.depth;
@@ -55,7 +60,6 @@ public class Main {
                     distanceMap[Y][X] = now.depth + 1;
                     q.add(new Node(Y, X, now.depth + 1));
                 }
-
             }
         }
     }
@@ -73,10 +77,9 @@ public class Main {
 
         map = new char[N][M];
         ArrayList<Node> trees = new ArrayList<>();
-        int[][] visited = new int[N][M];
+        boolean[][] visited = new boolean[N][M];
         distanceMap = new int[N][M];
         for(int i= 0;i<N;i++) {
-            Arrays.fill(visited[i], Integer.MAX_VALUE);
             Arrays.fill(distanceMap[i],100000);
         }
         Point start = null;
@@ -88,7 +91,6 @@ public class Main {
 
                 if(map[i][j]=='+') {
                     trees.add(new Node(i, j,0));
-
                 } else if (map[i][j] == 'V') {
                     start = new Point(i, j);
                 } else if (map[i][j] == 'J') {
@@ -99,40 +101,31 @@ public class Main {
         }
 
         distance(trees);
-//        for(int i= 0;i<N;i++) {
-//            for(int j= 0;j<M;j++) {
-//                System.out.print(distanceMap[i][j]+" ");
-//            }
-//            System.out.println();
-//        }
-
         PriorityQueue<Point> pq = new PriorityQueue<>();
 
-
         int temp = distanceMap[start.y][start.x];
-        pq.add(new Point(start.y, start.x, temp));
+        pq.add(new Point(start.y, start.x, temp,temp));
 
-        visited[start.y][start.x] = temp;
+        visited[start.y][start.x] = true;
 
         while (!pq.isEmpty()) {
             final Point now = pq.poll();
 
             if(now.y==target.y&&now.x==target.x) {
-                System.out.println(visited[now.y][now.x]);
+                System.out.println(now.min);
+
                 return ;
             }
             for(int d= 0;d<4;d++) {
                 int y = now.y + dy[d];
                 int x = now.x + dx[d];
 
-                if(y>=0&&x>=0&&y<N&&x<M&&map[y][x]!='+') {
+                if(y>=0&&x>=0&&y<N&&x<M&&!visited[y][x]&&map[y][x]!='+') {
                     int distance = distanceMap[y][x];
-                    if(distance<visited[y][x]) {
-                        pq.add(new Point(y, x,distance));
-                        distance = Math.min(visited[now.y][now.x], distance);
-                        visited[y][x] = distance;
+                    pq.add(new Point(y, x, distance, Math.min(now.min, distance)));
+                    visited[y][x] = true;
 
-                    }
+
                 }
 
 
