@@ -1,13 +1,15 @@
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Main {
+    static class Get{
+        TreeSet<Integer> maxHeap = new TreeSet<>(Comparator.reverseOrder());
+        TreeSet<Integer> minHeap = new TreeSet<>();
 
-    static TreeMap<Integer, PriorityQueue<Integer>> map = new TreeMap<>();
+    }
+
+    static HashMap<Integer, Get> map = new HashMap<>();
     static HashMap<Integer, Integer> difficulty = new HashMap<>();
     static int[] maxDifficultCount = new int[101];
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -17,23 +19,34 @@ public class Main {
             final Integer diff = difficulty.get(problem);
             maxDifficultCount[diff]--;
             difficulty.put(problem,difficult);
-            map.get(diff).remove(problem);
-            map.get(difficulty).add(problem);
+
+            Get get = map.get(diff);
+            get.minHeap.remove(problem);
+            get.maxHeap.remove(problem);
+
+            get = map.get(difficult);
+
+            get.minHeap.add(problem);
+            get.maxHeap.add(problem);
 
         }
         else {
             maxDifficultCount[difficult]++;
             difficulty.put(problem, difficult);
-            map.get(difficult).add(problem);
+
+            Get get = map.get(difficult);
+
+            get.minHeap.add(problem);
+            get.maxHeap.add(problem);
         }
     }
     static void solved(int problem) {
         final Integer difficult = difficulty.get(problem);
 
         difficulty.remove(problem);
-//        System.out.println("problem = " + problem);
-//        System.out.println("difficult = " + difficult);
-        map.get(difficult).remove(problem);
+        final Get get = map.get(difficult);
+        get.minHeap.remove(problem);
+        get.maxHeap.remove(problem);
 
         maxDifficultCount[difficult]--;
     }
@@ -44,11 +57,9 @@ public class Main {
             while(diff>1&&maxDifficultCount[diff]<=0) {
                 diff--;
             }
-//            maxDifficultCount[diff]--;
 
-//            System.out.println("diff = " + diff);
-            final Integer problem = map.get(diff).stream().max(Integer::compareTo).get();
-//            difficulty.remove(problem);
+            final Get get = map.get(diff);
+            int problem = get.maxHeap.first();
             bw.write(problem + "\n");
         }
         else {
@@ -58,7 +69,8 @@ public class Main {
             }
 
 //            maxDifficultCount[diff]--;
-            final Integer problem = map.get(diff).peek();
+            final Get get = map.get(diff);
+            int problem = get.minHeap.first();
 //            difficulty.remove(problem);
             bw.write(problem + "\n");
 
@@ -71,7 +83,7 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
 
         for(int i = 1;i<=100;i++) {
-            map.put(i, new PriorityQueue<>());
+            map.put(i, new Get());
         }
         for(int i= 0;i<N;i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -80,7 +92,9 @@ public class Main {
 
             maxDifficultCount[difficult]++;
             difficulty.put(problem, difficult);
-            map.get(difficult).add(problem);
+            final Get get = map.get(difficult);
+            get.maxHeap.add(problem);
+            get.minHeap.add(problem);
         }
 //        System.out.println("difficulty = " + difficulty);
 //        System.out.println("map = " + map);
