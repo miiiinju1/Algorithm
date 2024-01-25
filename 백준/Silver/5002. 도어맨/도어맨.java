@@ -22,13 +22,13 @@ public class Main {
 
         int X = Integer.parseInt(br.readLine());
 
-        final String str = br.readLine();
+        final char[] str = br.readLine().toCharArray();
 
         PriorityQueue<Person> pq = new PriorityQueue<>();
 
-        for(int i = 0;i<str.length();i++) {
+        for(int i = 0;i<str.length;i++) {
             int value;
-            if(str.charAt(i)=='W') {
+            if(str[i]=='W') {
                 value=-1;
             }
             else {
@@ -41,7 +41,6 @@ public class Main {
         int count = 0;
         while(!pq.isEmpty()) {
             final Person poll = pq.poll();
-
             //터지면
             if(Math.abs(now+poll.value)>X) {
                 if(pq.isEmpty()) {
