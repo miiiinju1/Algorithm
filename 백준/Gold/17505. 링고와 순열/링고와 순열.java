@@ -10,28 +10,24 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         long K = Long.parseLong(st.nextToken());
         int N = n;
-        int[] ary = new int[N];
+        int putCount = N-1;
+        int[] ary = new int[n];
 
         long now=0;
-        int index=n-1;
 
         int leftIndex=0;
-        while(true) {
-
-            if(0==N) {
-                break;
-            }
+        while(N>0) {
             //남은게 더 더해질 수 있는 것 보다 많으면
-            if(K-now>N-1) {
+            if(K-now>putCount) {
                 ary[leftIndex++] = N--;
-                now+=N;
+                now+=putCount--;
             }
-            else if(K-now<N-1) {
-                ary[n-1-(int)(K-now)] = N--;
+            else if(K-now<putCount) {
+                ary[(n-1)-(int)(K-now)] = N--;
                 break;
             }
             else {
-                ary[leftIndex ] = N--;
+                ary[leftIndex] = N--;
                 break;
             }
         }
