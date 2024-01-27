@@ -73,7 +73,7 @@ public class Main {
                     if(visited[next.index]>next.weight+visited[now.index]) {
                         parent[next.index] = now.index;
                         visited[next.index] = next.weight+visited[now.index];
-                        pq.add(new Next(next.index, next.weight + visited[now.index]));
+                        pq.add(next);
                     }
                 }
             }
