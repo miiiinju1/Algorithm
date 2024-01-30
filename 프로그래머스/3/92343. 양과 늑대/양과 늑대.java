@@ -8,32 +8,23 @@ class Solution {
 
     
     static void dfs(int now, int sheep, int wolf, List<Integer> canGo) {
+       
         if(info[now]==0) {
             sheep++;
         }
         else {
             wolf++;
         }
-        max = Math.max(sheep, max);
-        
-        // System.out.println(canGo+" "+sheep+" "+wolf);
-        
-        
-        if(sheep>wolf) {
-            
-            for (int i = 0; i < canGo.size(); i++) {
-                ArrayList<Integer> next = new ArrayList<>(canGo);
-                next.remove(i);
-                for (int j : map.get(canGo.get(i))) {
-                    next.add(j);
-                }
-                dfs(canGo.get(i), sheep, wolf, next);
-             }
-               
-            
+        if(sheep<=wolf) {
+            //그럼 이 때까지는 부모에 살아있으니깐?
+            return;
         }
-        else {
-            return ;
+        max = Math.max(sheep,max);
+        for(Integer next: canGo) {
+            ArrayList<Integer> nextList = new ArrayList<Integer> (canGo);
+            nextList.addAll(map.get(next));
+            nextList.remove(next);
+            dfs(next,sheep,wolf,nextList);
         }
         
         
