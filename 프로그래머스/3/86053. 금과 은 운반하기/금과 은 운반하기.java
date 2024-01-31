@@ -7,6 +7,7 @@ class Solution {
     static int[] weight;
     static int[] time;
     
+    //ㅅㅂ 이걸 어케푸노
     static boolean Check(long now,int a, int b) {
         long totalGold=0;
         long totalSilver=0;
@@ -27,7 +28,6 @@ class Solution {
         }
         return false;
         
-        
     }
     public long solution(int a, int b, int[] g, int[] s, int[] w, int[] t) {
         silver = s;
@@ -46,20 +46,6 @@ class Solution {
             }
         }
         
-        long answer = hi;
-        return answer;
+        return hi;
     }
 }
-
-//가장 먼저
-// 하나씩 몇 번에 갈 수 있는지 모두 카운트
-
-//t순으로 정렬, w순으로 정렬???
-
-//w/t순으로 정렬??
-
-// 70 + 
-
-//70 + 7
-
-//a부터 다 하고????
