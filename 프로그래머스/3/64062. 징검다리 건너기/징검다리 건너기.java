@@ -25,8 +25,6 @@ class Solution {
         min = Math.min(min,  pq.peek().value);
         
         for(int i = k;i<stones.length;i++) {
-            // pq.remove(stones[i-k]); //O(N)이라 터짐 (logN까지 줄여야하는데)
-            
             pq.add(new Value(i,stones[i]));
             while(!pq.isEmpty()) {
                 if(pq.peek().index>i-k) {
@@ -37,7 +35,6 @@ class Solution {
                     pq.poll();
                 }
             }
-            // min = Math.min(min,  pq.peek());
         }
     
         int answer = min;
