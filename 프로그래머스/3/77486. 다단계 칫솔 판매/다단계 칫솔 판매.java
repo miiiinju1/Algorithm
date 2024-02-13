@@ -4,9 +4,6 @@ class Solution {
     static HashMap<String, String> map = new HashMap<>();
     
     static void search(String now, int price) {
-        if(now.equals("-"))
-            return ;
-        
         if((int)(price*0.1)>=1) {
             int ret = (int)(price*0.1);
             result.put(now,result.getOrDefault(now,0) + price-ret);
