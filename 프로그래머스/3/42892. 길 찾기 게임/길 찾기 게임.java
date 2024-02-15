@@ -50,7 +50,6 @@ class Solution {
     static HashMap<Integer, ArrayList<Integer>> nodes = new HashMap<>();
     
     static Point left(Point point, int leftMin, int leftMax) {
-        try {
         if(!(leftMin<=leftMax && leftMax>=0)) {
             return null ;
         }
@@ -82,12 +81,7 @@ class Solution {
         }
         
         return pick;
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    
+        
     }
     
     
