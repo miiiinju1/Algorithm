@@ -39,10 +39,7 @@ class Solution {
             this.left = left;
             this.right = right;
         }
-        
-        public String toString() {
-            return "Child:["+left +"] ["+right+"]";
-        }
+    
     }
     
     
@@ -75,13 +72,10 @@ class Solution {
         
         if(pick!=null && point.y-1>=0) {
             map.get(point).left = pick;
-            
             left(pick, leftMin, pick.x-1);
             right(pick, pick.x+1, leftMax);
         }
-        
         return pick;
-        
     }
     
     
@@ -110,9 +104,6 @@ class Solution {
             
         }
         
-        // System.out.println(point+" "+pick);
-        
-        
         if(pick!=null&& point.y-1>=0) {
             map.get(point).right = pick;
             left(pick, rightMin, pick.x-1);
@@ -121,8 +112,6 @@ class Solution {
         return pick;
         
     }
-    
-    
     
     static ArrayList<Integer> preOrder = new ArrayList<>();
     static ArrayList<Integer> postOrder = new ArrayList<>();
@@ -138,7 +127,6 @@ class Solution {
         if(map.get(now).right!=null) {
             preOrder(map.get(now).right);
         }
-        
         
     }
     
@@ -196,8 +184,7 @@ class Solution {
      
         preOrder(start);
         postOrder(start);
-        // System.out.println(preOrder);
-        // System.out.println(postOrder);
+        
         int[][] answer = new int[2][preOrder.size()];
         
         for(int i =0;i<preOrder.size();i++) {
