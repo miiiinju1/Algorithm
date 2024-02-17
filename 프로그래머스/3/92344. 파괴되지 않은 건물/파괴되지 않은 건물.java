@@ -14,7 +14,7 @@ class Solution {
         }
         if(r2<board.length) 
             board[r2][c1] +=degree;
-
+ 
         if((c2<board[0].length)&&(r2<board.length))
             board[r2][c2]-=degree;
 
