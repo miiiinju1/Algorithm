@@ -30,22 +30,6 @@ class Solution {
                     answer[i] = ans[i];
                 }
             }
-            // if(temp > max) {
-            //     max = temp;
-            //     for(int j= 0;j<11;j++) {
-            //         answer[j] = rion[j];
-            //     }
-            // }
-            // else if(temp == max) {
-            // a:  for(int i= 10;i>=0;i--) {
-            //         if(answer[i] < rion[i]) {
-            //             for(int j= 0 ; j<11 ; j++) {
-            //                 answer[j] = rion[j];
-            //             }
-            //             break a;
-            //         }
-            //     }
-            // }
             return ;
         }
         
@@ -54,7 +38,6 @@ class Solution {
             rion[i] +=lim;
             combination(n,count+lim,i+1);
             rion[i] -=lim;
-            combination(n,count,i+1);
         }
         
     }
