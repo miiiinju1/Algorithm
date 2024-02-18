@@ -1,17 +1,7 @@
 class Solution {
     static int[] rion = new int[11];
     
-    static private int[] checkArr ( int[]a, int[] b ) {
-
-        for(int i = a.length-1; i >=0 ; i--) {
-            if(a[i] == b[i]) 
-                continue;
-            
-            if(a[i] < b[i]) return b;
-                break;
-        }
-        return a;
-    }
+    
     static int max = 0;
     static int[] answer = new int[11];
     static void combination(int n, int count,int index) {
@@ -25,9 +15,16 @@ class Solution {
             }
             else if(temp==max) {
                 max = temp;
-                int[] ans = checkArr(answer,rion);
-                for(int i=0;i<11;i++) {
-                    answer[i] = ans[i];
+                a:  for(int i= 10;i>=0;i--) {
+                    if(answer[i] < rion[i]) {
+                        for(int j= 0 ; j<11 ; j++) {
+                            answer[j] = rion[j];
+                        }
+                        break a;
+                    }
+                    else if(answer[i]>rion[i]){
+                        break;
+                    }
                 }
             }
             return ;
@@ -57,7 +54,6 @@ class Solution {
                 if(apeach[i]!=0)
                     apeachSum+=(10-i);
             }
-            // System.out.print(rion[i]+" ");
         }
         
         return rionSum-apeachSum;
