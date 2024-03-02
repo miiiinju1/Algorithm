@@ -8,15 +8,6 @@ public class Main {
     static class Point {
         int y,x;
 
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("Point{");
-            sb.append("y=").append(y);
-            sb.append(", x=").append(x);
-            sb.append('}');
-            return sb.toString();
-        }
-
         public Point(int y, int x) {
             this.y= y;
             this.x =x;
@@ -36,7 +27,6 @@ public class Main {
         boolean[][] visited = new boolean[N+1][M+2];
         while(!q.isEmpty()) {
             Point now = q.poll();
-//            System.out.println("now = " + now);
             for(int i= 0;i<4;i++) {
                 int Y = dy[i] + now.y;
                 int X = dx[i] + now.x;
@@ -92,12 +82,11 @@ public class Main {
         }
 
 
-        int lo = 0, hi = Integer.MAX_VALUE;
+        int lo = 0, hi = 1000001;
 
         while(lo+1<hi) {
             int mid = (hi-lo)/2 + lo;
             int temp = check(mid);
-//            System.out.println("temp = " + temp);
             if(temp>=K) {
                 hi = mid;
             }
