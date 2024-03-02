@@ -2,7 +2,6 @@ import java.util.*;
 class Solution {
     static HashMap<String,Integer> visited = new HashMap<>();
     static ArrayList<String> result = new ArrayList<>();
-    static int size;
     static boolean search(String now) {
         if(0==visited.size()) {
             return true;
@@ -22,15 +21,12 @@ class Solution {
                 }
                 visited.put(now+next, visited.getOrDefault(now+next, 0)+1);
 
-                
             }
         }
         return false;
     }
     static HashMap<String, ArrayList<String>> map = new HashMap<>(); 
     public String[] solution(String[][] tickets) {
-        //그냥 앞에서부터 계속 접근하면 되는거아닌가
-        size = tickets.length;
         for(String[] ticket : tickets) {
             String from = ticket[0];
             String to = ticket[1];
@@ -54,7 +50,6 @@ class Solution {
         result.add("ICN");
         Collections.reverse(result);
         
-        String[] answer = {};
         return result.stream().toArray(String[]::new);
     }
 }
