@@ -26,7 +26,7 @@ class Solution {
         for(int[] c : costs) {
             edges.add(c);
         }
-        Collections.sort(edges, Comparator.comparingInt(arr -> arr[2]));
+        Collections.sort(edges, (o1,o2) -> Integer.compare(o1[2],o2[2]));
         for(int[] c : edges) {
             union(c[0],c[1],c[2]);
         }
