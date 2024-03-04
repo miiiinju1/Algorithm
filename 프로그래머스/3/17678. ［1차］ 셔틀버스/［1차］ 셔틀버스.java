@@ -18,12 +18,9 @@ class Solution {
         int i = 0;
         
         for(Integer busTime : bus) {
-            
             int busCount = 0;
             
             for(;i<timeTable.length;i++) {
-                // System.out.printf("mid = %d i = %d, timeTable = %d\n",mid,i,timeTable[i]);
-                
                 if(timeTable[i]>busTime) {
                     break;
                 }
@@ -32,8 +29,6 @@ class Solution {
                 }
                 
                 else if(mid<=busTime &&timeTable[i]>mid) {
-                    
-                    // System.out.println("true");
                     return true;
                 }
                 else if(busCount<m) {
@@ -42,17 +37,12 @@ class Solution {
             
             }
             if(busCount<m && mid<=busTime) {
-                    // System.out.printf("busCount = %d\n", busCount);
-                    // System.out.printf("busTime = %d\n", busTime);
-                    // System.out.println("true ll");
-                
                     return true;
             }
             
             
             
         }
-        System.out.println("false");
         
         return false;
         
@@ -86,9 +76,6 @@ class Solution {
             
             
         }
-        
-        
-        System.out.println(lo);
         
         String answer =  String.format("%02d",lo/60) +":"+String.format("%02d",lo - ((lo/60)*60));
         return answer;
