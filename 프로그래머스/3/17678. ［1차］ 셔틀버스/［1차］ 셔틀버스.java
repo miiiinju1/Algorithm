@@ -62,7 +62,7 @@ class Solution {
 
         
         int lo = 0, hi = 24*60;
-        
+       
         while(lo+1<hi) {
             
             int mid = (hi-lo)/2+lo;
@@ -76,7 +76,7 @@ class Solution {
             
             
         }
-        
+     
         String answer =  String.format("%02d",lo/60) +":"+String.format("%02d",lo - ((lo/60)*60));
         return answer;
     }
