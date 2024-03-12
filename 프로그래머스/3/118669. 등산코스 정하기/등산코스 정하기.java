@@ -10,9 +10,6 @@ class Solution {
         public int compareTo(Node o) {
             return Integer.compare(this.weight,o.weight);
         }
-        public String toString() {
-            return next+" "+weight;
-        }
     }
     
     static class Point implements Comparable<Point> {
@@ -56,14 +53,9 @@ class Solution {
             pq.add(new Point(g,0,0));
             visited[g] = 0;
         }
-        
-        // System.out.println(map);
-        // System.out.println(summit);
-        
         int min = Integer.MAX_VALUE;
         int dest = -1;
 
-        
         PriorityQueue<Integer> result = new PriorityQueue<>( );
         while(!pq.isEmpty()) {
             Point now = pq.poll();
@@ -76,7 +68,6 @@ class Solution {
             
             if(summit.contains(now.next) && min>=now.minWeight) {
                 min = now.minWeight;
-                // result.add(new Node(now.next,now.minWeight));
                 result.add(now.next);
                 continue;
             }
