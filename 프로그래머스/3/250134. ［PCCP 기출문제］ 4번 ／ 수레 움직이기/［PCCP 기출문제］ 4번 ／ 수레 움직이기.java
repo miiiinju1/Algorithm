@@ -1,37 +1,12 @@
 import java.util.*;
 
 class Phase {
+    
     boolean[][] visitedA;
     boolean[][] visitedB;
     int yA,xA;
     int yB,xB;
     int depth;
-    
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Phase{\n");
-         for(int i =0;i<visitedA.length;i++) {
-            for(int j= 0;j<visitedA[0].length;j++) {
-                sb.append(visitedA[i][j]+" ");
-            
-            }
-             sb.append("\n");
-        }
-        sb.append("---\n");
-        for(int i =0;i<visitedA.length;i++) {
-            for(int j= 0;j<visitedA[0].length;j++) {
-                  sb.append(visitedB[i][j]+" ");
-            }
-             sb.append("\n");
-        }
-        sb.append(", yA=").append(yA);
-        sb.append(", xA=").append(xA);
-        sb.append(", yB=").append(yB);
-        sb.append(", xB=").append(xB);
-        sb.append(", depth=").append(depth);
-        sb.append('}');
-        return sb.toString();
-    }
     
     public Phase(int yA,int xA, int yB, int xB, int depth, boolean[][] visitedA, boolean[][] visitedB) {
         
@@ -40,7 +15,6 @@ class Phase {
         this.xA = xA;
         this.xB = xB;
         this.depth = depth;
-        
         this.visitedA = new boolean[visitedA.length][visitedA[0].length];
         this.visitedB = new boolean[visitedA.length][visitedA[0].length];
         for(int i =0;i<visitedA.length;i++) {
@@ -49,7 +23,6 @@ class Phase {
                 this.visitedB[i][j] = visitedB[i][j];
             }
         }
-        
         
     }
     
@@ -160,10 +133,7 @@ class Solution {
                             now.visitedA[aY][aX] = true;
                             now.visitedB[bY][bX] = true;
                             q.add(new Phase(aY, aX, bY, bX, now.depth+1, now.visitedA, now.visitedB));
-                            
-                            // if(!(now.yA == aY && now.xA == aX))
                             now.visitedA[aY][aX] = false;
-                            // if(!(now.yB == bY && now.xB == bX))
                             now.visitedB[bY][bX] = false;
 
                         }        
