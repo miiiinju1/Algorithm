@@ -88,7 +88,7 @@ class Solution {
             }
             
             else {
-                //만약 버릴 수 있으면
+                //만약 버릴 수 있으면 
                 for(;nowIndex<targetIndex;nowIndex++) {
                     System.out.println(cards[nowIndex]);
                     if(coin>0 && now.contains(target-cards[nowIndex]) ) {
