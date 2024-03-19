@@ -141,8 +141,6 @@ class Solution {
                     now.board[p2.y][p2.x] = 0;
                     now.visited.add(key);
                     
-                    // System.out.println(count1+" "+count2);
-                    // System.out.println(shortest);
                     
                     q.add(new Phase(p2.y,p2.x,now.count+count1+short1,now.board,now.visited));
                     q.add(new Phase(p1.y,p1.x,now.count+count2+short2,now.board,now.visited));
