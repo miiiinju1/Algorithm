@@ -29,24 +29,8 @@ class Solution {
       
         if(require.contains(0)) return false;
         
-        while(!q.isEmpty() || !staging.isEmpty()) {
-            Integer now = -1;
-            if(!q.isEmpty())
-                now = q.poll();
-//             else if(!staging.isEmpty() && !hasKey.isEmpty()) {
-//                 for(Integer s : staging) {
-//                     if(hasKey.contains(s)) {
-//                         q.add(s);
-//                         hasKey.remove(s);
-//                     }
-//                 }
-                
-//                 if(q.isEmpty()) { 
-                    
-//                     break;
-//                 }
-//                 continue;
-//             }    
+        while(!q.isEmpty() ) {
+            Integer now = q.poll();
          
             if(key.containsKey(now)) {
                hasKey.add(key.get(now));
@@ -55,12 +39,6 @@ class Solution {
                     staging.remove(key.get(now));
                 }
             }
-            if(now==-1) {
-                break;
-            }
-            // if(staging.contains(now)) {
-            //     staging.remove(now);
-            // }
            for(Integer next : map.get(now)) {
                if(!visited[next]) {
                    count++;
