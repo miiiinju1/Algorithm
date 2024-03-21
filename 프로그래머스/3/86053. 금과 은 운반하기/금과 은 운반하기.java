@@ -1,32 +1,58 @@
 class Solution {
-    public long solution(int a, int b, int[] g, int[] s, int[] w, int[] t) {
-        //10 ^ 9 * 10^5 * 4
+    
+    static int[] gold;
+    static int[] silver;
+    static int[] weight;
+    static int[] t;
+    static int a,b;
+    static boolean check(long time) {
+        
+        long goldSum = 0, silverSum = 0, wSum=0;
+        
+        for(int i= 0;i<gold.length;i++) {
+            
+            long times = time/(t[i]*2);
+            if(time%(t[i]*2)>=t[i]) {
+                times++;
+            }
+            
+            goldSum += Math.min(times * weight[i], gold[i]);
+            silverSum += Math.min(times * weight[i], silver[i]);
+            wSum += Math.min(times * weight[i], gold[i] + silver[i]);
+        }
+        
+        
+        if(goldSum>=a && silverSum>=b && wSum >=a+b) {
+            return true;
+        }
+        return false;
+        
+    }
+    
+    public long solution(int a, int b, int[] g, int[] s, int[] w, int[] time) {
+        gold = g;
+        silver = s;
+        weight = w;
+        t = time;
+        this.a= a;
+        this.b= b;
+        
         long lo = 0, hi = 400000000000000L;
         
         while(lo+1<hi) {
-            long now = (hi-lo)/2+lo;
             
-            long totalGold = 0;
-            long totalSilver = 0;
-            long total = 0;
+            long mid = (hi-lo)/2 + lo;
             
-            for(int i = 0;i<g.length;i++) {
-                long count = now / (t[i]*2);
-                
-                if(now%(t[i]*2)>=t[i]) {
-                    count++;
-                }
-                totalGold += Math.min(g[i], w[i]*count);
-                totalSilver += Math.min(s[i], w[i]*count);
-                total+= Math.min(w[i]*count, g[i]+s[i]);
+            if(check(mid)) {
+                hi = mid;
             }
-            if(totalGold>=a && totalSilver>=b&&total>=a+b) {
-                hi = now;
-            }else {
-                lo = now;
+            else {
+                lo = mid;
             }
             
         }
-        return hi;
+        
+        long answer = hi;
+        return answer;
     }
 }
