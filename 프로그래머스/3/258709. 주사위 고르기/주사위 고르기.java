@@ -1,118 +1,88 @@
-import java.util.*;
-
 class Solution {
-    static final int MAX_DICE_FACE = 6;
-    static final int MAX_DICE_SUM = 602; // 최대 주사위 면의 합
-
+    static int n;
+    static int[][] dice;
+    static boolean[] visited;
+    static int[] aChoose;
+    static int[] bChoose;
+    
     static int[] A;
     static int[] B;
-    static int[] A_SumCount;
-    static int[] B_SumCount;
-    static int[][] dices;
-    static int diceCount;
-    static boolean[] visited;
-    static int maxCount = 0;
-    static int[] maxPick;
-
-    static void A_pick(int index, int size, int count, int sum) {
-        if (count == size) {
-            A_SumCount[sum]++;
-            return;
+    
+    static long maxAWin = 0;
+    static int[] maxResult;
+    
+    static void calculation() {
+        long winCount=0;
+        for(int i = 1;i<601;i++) {
+            // A[i]+=A[i-1];
+            B[i]+=B[i-1];
         }
-        for (int i = 0; i < MAX_DICE_FACE; i++) {
-            A_pick(index + 1, size, count + 1, sum + dices[A[index]][i]);
-        }
-    }
-
-    static void B_pick(int index, int size, int count, int sum) {
-        if (count == size) {
-            B_SumCount[sum]++;
-            return;
-        }
-        for (int i = 0; i < MAX_DICE_FACE; i++) {
-            B_pick(index + 1, size, count + 1, sum + dices[B[index]][i]);
-        }
-    }
-
-    static void calculateDicePosibility(int size) {
-        A_pick(0, size, 0, 0);
-        B_pick(0, size, 0, 0);
-    }
-
-    static void compare(int size) {
-        int count = 0;
-        int[] cumulativeSum = new int[MAX_DICE_SUM * size + 1];
-        int sum = 0;
         
-        // 누적합 배열을 만든다
-        for (int i = 0; i < cumulativeSum.length; i++) {
-            sum += A_SumCount[i];
-            cumulativeSum[i] = sum;
+        for(int i = 1;i<601;i++) {
+            winCount += (A[i] * B[i-1]);
         }
-
-        // B의 각 합에 대해 A의 누적합을 사용하여 계산
-        for (int bSum = 0; bSum < B_SumCount.length; bSum++) {
-            if (B_SumCount[bSum] > 0) {
-                for (int aSum = bSum + 1; aSum < cumulativeSum.length; aSum++) {
-                    if (A_SumCount[aSum] > 0) {
-                        count += B_SumCount[bSum] * (cumulativeSum[cumulativeSum.length - 1] - cumulativeSum[aSum - 1]);
-                        break;
-                    }
-                }
+        
+        if(maxAWin<winCount) {
+            maxAWin = winCount;
+            for(int i=0;i<n/2;i++) {
+                maxResult[i] = aChoose[i];
             }
         }
-
-        // 최대 카운트와 maxPick 배열 업데이트
-        if (maxCount < count) {
-            maxCount = count;
-            maxPick = new int[size];
-            for (int i = 0; i < size; i++) {
-                maxPick[i] = A[i] + 1;
-            }
-        }
+        
+        
+        
+        
     }
-
-    static void combination(int index, int size) {
-        if (index == size) {
-            int b_i = 0;
-            for (int i = 0; i < diceCount; i++) {
-                if (!visited[i]) {
-                    B[b_i++] = i;
-                }
-            }
-
-            A_SumCount = new int[MAX_DICE_SUM * size + 1];
-            B_SumCount = new int[MAX_DICE_SUM * size + 1];
-            calculateDicePosibility(size);
-            compare(size);
-
+    static void simulation(int diceNum, int sumA, int sumB) {
+        if(diceNum==n/2) {
+            A[sumA]+=1;
+            B[sumB]+=1;
             return;
         }
-
-        for (int i = 0; i < diceCount; i++) {
-            if (!visited[i]) {
-                A[index] = i;
+        for(int i = 0;i<6;i++) {
+            simulation(diceNum+1, sumA+dice[aChoose[diceNum]][i], 
+                       sumB+dice[bChoose[diceNum]][i]);
+        }
+    }
+    
+    static void choose(int now, int count) {
+        if(count==n/2) {
+            int index = 0;
+            for(int i =0;i<n;i++) {
+                if(!visited[i]) {
+                    bChoose[index++] = i;
+                }
+            }
+            simulation(0,0,0);
+            calculation();
+            A = new int[601];
+            B = new int[601];
+            return;
+        }
+        
+        for(int i = now; i<n;i++) {
+            if(!visited[i]) {
                 visited[i] = true;
-                combination(index + 1, size);
+                aChoose[count] = i;
+                choose(i+1, count+1);
                 visited[i] = false;
             }
         }
     }
-
-    public static int[] solution(int[][] d) {
-        dices = d;
-        diceCount = dices.length;
-        maxPick = new int[diceCount / 2];
-
-        A = new int[diceCount / 2];
-        B = new int[diceCount / 2];
-        visited = new boolean[diceCount];
-
-        combination(0, diceCount / 2);
-        
-        return maxPick;
+    public int[] solution(int[][] d) {
+        dice = d;
+        n = dice.length;
+        maxResult = new int[n/2];
+        aChoose = new int[n/2];
+        bChoose = new int[n/2];
+        A = new int[601];
+        B = new int[601];
+        visited = new boolean[n];
+        choose(0,0);
+      
+        for(int i= 0;i<n/2;i++) {
+            maxResult[i]+=1;
+        }
+        return maxResult;
     }
-
-    // 메인 함수 또는 테스트 함수는 생략됨
 }
-
