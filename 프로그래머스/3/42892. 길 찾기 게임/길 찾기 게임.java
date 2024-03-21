@@ -1,196 +1,115 @@
 import java.util.*;
+import java.util.stream.*;
+
+class Child {
+    Point left,right;
+    public String toString() {
+        return left+" "+right;
+    }
+}
+
+class Point {
+    int y, x;
+    public Point(int y, int x) {
+        this.y = y;
+        this.x = x;
+    }
+    
+    @Override
+    public int hashCode() {
+        return this.y*31 + this.x;
+    }
+    @Override
+    public boolean equals(Object o) {
+        Point p = (Point)o;
+        return this.y==p.y && this.x==p.x;
+    }
+    public String toString() {
+        return this.y+" "+this.x;
+    }
+}
+
 class Solution {
+    static HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+    static HashMap<Point, Child> map2 = new HashMap<>();
+    static List<Integer> heights;
+    static HashMap<Point, Integer> compute = new HashMap<>();
     
-    static class Point {
-        int y,x;
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Point point = (Point) o;
-
-            if (y != point.y) return false;
-            return x == point.x;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = y;
-            result = 31 * result + x;
-            return result;
-        }
-        public Point(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-        
-         public String toString() {
-            return y +" "+x;
-        }
-        
-    }
-    
-    static class Child {
-        Point left;
-        Point right;
-        
-        public Child(Point left, Point right) {
-            this.left = left;
-            this.right = right;
-        }
-    
-    }
-    
-    
-    static HashMap<Point, Child> map = new HashMap<>();
-    static HashMap<Integer, ArrayList<Integer>> nodes = new HashMap<>();
-    
-    static Point left(Point point, int leftMin, int leftMax) {
-        if(!(leftMin<=leftMax && leftMax>=0)) {
-            return null ;
-        }
-        Point pick = null;
-        
-        int y = point.y-1;
-            
-        a : for(;y>=0;y--) {
-            if(!nodes.containsKey(y)) {
-                continue;
-            }
-            ArrayList<Integer> list = nodes.get(y);
-            for(int child : list) {
-            
-                if(child>=leftMin && child <= leftMax) {
-                    pick = new Point(y,child);
+    public static Point dfs(int yIndex, int left, int right) {
+        Point now = null;
+        int nextYIndex=-1;
+        a: for(int i = yIndex;i<heights.size();i++) {
+            int y = heights.get(i);
+            for(int x : map.get(y)) {
+                if(now == null && x>=left && x<=right) {
+                    now = new Point(y,x);
+                    nextYIndex=i;
                     break a;
                 }
             }
-            
         }
-    
-        
-        if(pick!=null && point.y-1>=0) {
-            map.get(point).left = pick;
-            left(pick, leftMin, pick.x-1);
-            right(pick, pick.x+1, leftMax);
-        }
-        return pick;
-    }
-    
-    
-    static Point right(Point point, int rightMin, int rightMax) {
-        
-        if(!(rightMin<=rightMax && rightMin<=100000)) {
+        if(now==null) {
             return null;
         }
-        
-        Point pick = null;
-        int y = point.y-1;
-        
-        a: for(;y>=0;y--) {
-            if(!nodes.containsKey(y)) {
-                continue;
-            }
-            ArrayList<Integer> list = nodes.get(y);
-            
-            for(int child : list) {
-                if(child>=rightMin && child <= rightMax) {
-                    pick = new Point(y,child);
-                    break a;
-                    
-                }
-            }
-            
-        }
-        
-        if(pick!=null&& point.y-1>=0) {
-            map.get(point).right = pick;
-            left(pick, rightMin, pick.x-1);
-            right(pick, pick.x+1, rightMax);
-        }
-        return pick;
-        
-    }
-    
-    static ArrayList<Integer> preOrder = new ArrayList<>();
-    static ArrayList<Integer> postOrder = new ArrayList<>();
-    
-    static void preOrder(Point now) {
-        
-        preOrder.add(points.get(now));
-        
-        if(map.get(now).left!=null) {
-            preOrder(map.get(now).left);
-        }
-        
-        if(map.get(now).right!=null) {
-            preOrder(map.get(now).right);
-        }
-        
-    }
-    
-    static void postOrder(Point now) {
-        
-        if(map.get(now).left!=null) {
-            postOrder(map.get(now).left);
-        }
-        
-        if(map.get(now).right!=null) {
-            postOrder(map.get(now).right);
-        }
-        
-        postOrder.add(points.get(now));
-        
-    }
-    static HashMap<Point, Integer> points = new HashMap<>();
-    public int[][] solution(int[][] nodeinfos) {
-        int startY = -1;
-        int startX = -1;
-        int index = 1;
-        for(int[] nodeinfo: nodeinfos) {
-            int x = nodeinfo[0];
-            int y = nodeinfo[1];
-            if(startY<y) {
-                startY = y;
-                startX = x;
-            }
-            
-            Point p = new Point(y,x);
-            map.put(p, new Child(
-                null,
-                null));
-            
-            points.put(p,index++);
-            if(nodes.containsKey(y)) {
-                nodes.get(y).add(x);
-            }
-            
-            else {
-                ArrayList list = new ArrayList<>();
-                list.add(x);
-                nodes.put(y,list);
-            }
-            
-        }
-        for(Map.Entry<Integer, ArrayList<Integer>> entry : nodes.entrySet() ) {
-            Collections.sort(entry.getValue());
-        }
-       
-        Point start = new Point(startY,startX);
+        Child c = map2.get(now);
+        c.left = dfs(nextYIndex+1, left, now.x-1);
+        c.right = dfs(nextYIndex+1, now.x+1, right);
 
-        map.get(start).left = left(start, 0, startX-1);
-        map.get(start).right = right(start, startX+1, 100000);
-     
+        return now;
+    }
+    public List<Integer> preOrder = new ArrayList<>();
+    public List<Integer> postOrder = new ArrayList<>();
+    
+    public void preOrder(Point now) {
+        if(now==null) {
+            return ;
+        }
+        Child c = map2.get(now);
+        
+        preOrder.add(compute.get(now));
+        preOrder(c.left);
+        preOrder(c.right);
+        
+    }
+     public void postOrder(Point now) {
+        if(now==null) {
+            return ;
+        }
+        Child c = map2.get(now);
+         
+        postOrder(c.left);
+        postOrder(c.right);
+        postOrder.add(compute.get(now));
+        
+    }
+    public int[][] solution(int[][] nodeinfos) {
+        
+        int index = 1;
+        for(int[] nodeinfo : nodeinfos) {
+            int y = nodeinfo[1];
+            int x = nodeinfo[0];
+            
+            map.computeIfAbsent(y, k -> new ArrayList<>());
+            map.get(y).add(x);
+            Point p = new Point(y,x);
+            compute.put(p, index++);
+            map2.put(p,new Child());
+        }
+        
+        heights = map.keySet().stream()
+            .sorted((o1,o2)-> o2.compareTo(o1))
+            .collect(Collectors.toList());
+        
+        
+        dfs(0,0,100000);
+        Point start = new Point(heights.get(0), map.get(heights.get(0)).get(0));
         preOrder(start);
         postOrder(start);
         
-        int[][] answer = new int[2][preOrder.size()];
-        
-        for(int i =0;i<preOrder.size();i++) {
-            answer[0][i] = preOrder.get(i);
-            answer[1][i] = postOrder.get(i);
-        }
+        int[][] answer = {
+            preOrder.stream().mapToInt(Integer::intValue).toArray(),
+            postOrder.stream().mapToInt(Integer::intValue).toArray(),
+        };
         return answer;
     }
 }
