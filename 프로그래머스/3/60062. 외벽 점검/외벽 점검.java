@@ -6,38 +6,7 @@ class Solution {
     static boolean[] visited;
     static boolean[] weakVisited;
     static int n;
-//     static boolean check() {
-//         for(int start = 0; start < weak.length; start++) {
-//             // 각 시작점에 대해 확인
-//             for(int i = 0; i < selected.length; i++) {
-//                 int end = weak[start] + selected[i]; // 현재 친구가 커버할 수 있는 최대 거리
-//                 int covered = 1; // 시작점도 커버하므로 1부터 시작
 
-//                 for(int next = start + 1; next < weak.length; next++) { // 다음 약한 지점부터 확인
-//                     int nextPosition = weak[next];
-//                     if(nextPosition > n) { // 원형이므로 n을 넘어가면 0부터 다시 시작
-//                         nextPosition -= n;
-//                     }
-//                     if(end >= nextPosition) { // 현재 친구가 커버 가능
-//                         covered++;
-//                     } else {
-//                         if(i + 1 < selected.length) { // 다음 친구로 변경
-//                             end = nextPosition + selected[i + 1];
-//                             i++; // 다음 친구 선택
-//                             covered++;
-//                         } else {
-//                             break; // 더 이상 친구가 없으면 종료
-//                         }
-//                     }
-//                 }
-
-//                 if(covered >= weak.length) {
-//                     return true; // 모든 약한 지점을 커버할 수 있으면 true 반환
-//                 }
-//             }
-//         }
-//         return false; // 모든 시작점에서 커버할 수 없으면 false 반환
-//     }
     static boolean check() {
         for(int w = 0;w<weak.length;w++) {
             weakVisited = new boolean[weak.length];
@@ -52,8 +21,7 @@ class Solution {
                 if(wIndex==weak.length) {
                     wIndex = 0;
                 }
-                // System.out.println(start+" "+end+"count : "+count) ;
-               
+             
                 
                 if(!weakVisited[wIndex]) {
                     if(end<n) {
@@ -155,19 +123,7 @@ class Solution {
                 wIndex++;
                 
             }
-            // if(selected.length==3) {
-            //     for(int t = 0;t<selected.length;t++) {
-            //         System.out.print(selected[t]+" ");
-            //     }
-            //     System.out.println("---");
-            //     System.out.println(w);
-            //     System.out.println(count);
-            //     for(int z= 0;z<weak.length;z++) {
-            //         System.out.print(weakVisited[z]+" ");
-            //     }
-            //     System.out.println();
-            //     System.out.println(start+" "+end);
-            // }
+           
             if(count==weak.length) {
                 
                 return true;
