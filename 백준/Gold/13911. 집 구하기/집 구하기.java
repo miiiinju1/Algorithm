@@ -64,7 +64,7 @@ public class Main {
         //starbucks = 1;
         long[][] visited = new long[2][V+1];
         for(int z =0;z<2;z++) {
-            Arrays.fill(visited[z], Integer.MAX_VALUE);
+            Arrays.fill(visited[z], Long.MAX_VALUE);
         }
         long min = Long.MAX_VALUE;
         PriorityQueue<Node> pq = new PriorityQueue<>();
@@ -77,12 +77,12 @@ public class Main {
             while (!pq.isEmpty()) {
 
                 final Node node = pq.poll();
-
+                if(node.weight>x) {
+                    break;
+                }
                 for (Node child : map.get(node.next)) {
                     if (visited[0][child.next] > node.weight + child.weight) {
-                        if(node.weight+child.weight>x) {
-                            continue;
-                        }
+
                         visited[0][child.next] = node.weight + child.weight;
                         pq.add(new Node(child.next, node.weight + child.weight));
                     }
@@ -98,12 +98,11 @@ public class Main {
             while(!pq.isEmpty()) {
 
                 final Node node = pq.poll();
-
+                if(node.weight>y) {
+                    break;
+                }
                 for (Node child : map.get(node.next)) {
                     if(visited[1][child.next] > node.weight + child.weight) {
-                        if(node.weight+child.weight>y) {
-                            continue;
-                        }
                         visited[1][child.next] = node.weight + child.weight;
                         pq.add(new Node(child.next, node.weight + child.weight));
                     }
@@ -112,15 +111,15 @@ public class Main {
 
 
         for(int z = 1;z<=V;z++) {
-            
             if(macdonalds.contains(z) || starbucks.contains(z)) continue;
-            if(visited[0][z] ==Integer.MAX_VALUE || visited[1][z]==Integer.MAX_VALUE)
+            if(visited[0][z] >x || visited[1][z]>y)
                 continue;
             long sum = visited[0][z] + visited[1][z];
 
             min = Math.min(sum,min);
         }
-if(min==Long.MAX_VALUE) {
+
+        if(min==Long.MAX_VALUE) {
             System.out.println(-1);
             return;
         }
