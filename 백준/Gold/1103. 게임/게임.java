@@ -16,8 +16,6 @@ public class Main {
     static int dfs(int Y, int X) {
         int v = map[Y][X];
         int temp = 0;
-//        System.out.println(Y+" "+X+" "+count);
-
         if(valueMap[Y][X]!=-1)
             return valueMap[Y][X];
         for (int d = 0; d < 4; d++) {
@@ -42,10 +40,8 @@ public class Main {
                 temp = Math.max(temp,1);
             }
         }
-
-//        System.out.println("temp = " + temp);
         valueMap[Y][X] = Math.max(valueMap[Y][X], temp);
-        return temp;
+        return valueMap[Y][X];
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
