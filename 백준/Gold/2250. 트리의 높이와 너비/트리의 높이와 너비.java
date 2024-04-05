@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,6 +52,50 @@ public class Main {
     }
 
 
+    static int num = 1;
+    static int dfs(int now, int depth) {
+
+
+        final Node node = tree.get(now);
+
+        if(node.left==-1 && node.right==-1) {
+
+            //설정 num++;
+            return num++;
+        }
+        result.computeIfAbsent(depth, k -> new Node(Integer.MAX_VALUE, Integer.MIN_VALUE));
+
+        int resultL = -1;
+        if(node.left!=-1) {
+            resultL = dfs(node.left, depth+1);
+        }
+
+        int mine = num++;
+
+
+        int resultR = -1;
+        if(node.right!=-1) {
+           resultR = dfs(node.right, depth+1);
+        }
+
+        if(resultL!=-1 && resultR != -1) {
+            int min = Math.min(resultL, resultR);
+            int max = Math.max(resultL, resultR);
+            result.get(depth).left = Math.min(min, result.get(depth).left);
+            result.get(depth).right = Math.max(max, result.get(depth).right);
+
+        }
+        else if(resultL==-1) {
+            result.get(depth).left = Math.min(resultR, result.get(depth).left);
+            result.get(depth).right = Math.max(resultR, result.get(depth).right);
+        }
+        else {
+            result.get(depth).left = Math.min(resultL, result.get(depth).left);
+            result.get(depth).right = Math.max(resultL, result.get(depth).right);
+        }
+
+        return mine;
+    }
     static HashMap<Integer, Node> result = new HashMap<>();
     static int dfs(int now, int left, int right, int depth) {
         if(left==right) {
@@ -118,9 +163,7 @@ public class Main {
             return ;
         }
 
-        count(root);
-
-        dfs(root,1,N,1);
+        dfs(root, 1);
 
         final Map.Entry<Integer, Node> entry = result.entrySet().stream()
                 .min((o1, o2) -> {
