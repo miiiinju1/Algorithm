@@ -53,19 +53,21 @@ public class Main {
             }
         }
         public Shark(int[][] map, int[][] direction, int y, int x, int sharkDir, int value) {
-            this.map = new int[4][4];
-            for(int i = 0;i<4;i++) {
-                for(int j= 0;j<4;j++) {
-                    this.map[i][j] = map[i][j];
-                }
-            }
+//            this.map = new int[4][4];
+//            for(int i = 0;i<4;i++) {
+//                for(int j= 0;j<4;j++) {
+//                    this.map[i][j] = map[i][j];
+//                }
+//            }
+            this.map = map;
+            this.direction = direction;
             this.sharkDir = sharkDir;
-            this.direction = new int[4][4];
-            for(int i = 0;i<4;i++) {
-                for(int j= 0;j<4;j++) {
-                    this.direction[i][j] = direction[i][j];
-                }
-            }
+//            this.direction = new int[4][4];
+//            for(int i = 0;i<4;i++) {
+//                for(int j= 0;j<4;j++) {
+//                    this.direction[i][j] = direction[i][j];
+//                }
+//            }
             this.y = y;
             this.x = x;
             this.value = value;
