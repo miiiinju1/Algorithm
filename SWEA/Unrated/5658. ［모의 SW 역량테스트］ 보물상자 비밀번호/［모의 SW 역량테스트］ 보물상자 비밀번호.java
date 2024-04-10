@@ -48,7 +48,7 @@ public class Solution {
 					bw.write("#"+tc+" "+i+"\n");
 					break;
 				}
-				k++;
+				++k;
 			}
 			
 		}
