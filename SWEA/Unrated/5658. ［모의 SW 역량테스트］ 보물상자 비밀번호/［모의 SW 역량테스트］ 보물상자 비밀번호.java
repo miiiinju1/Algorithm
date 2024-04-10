@@ -27,10 +27,13 @@ public class Solution {
 			StringBuilder sb = new StringBuilder(br.readLine());
 
 			int length = N/4;
-			//그냥 
-			for(int i= 0;i<sb.length();i+=length) {
-				set.add(Integer.parseInt(sb.substring(i,i+length),16));
-			}
+			
+            sb.append(sb);
+            for (int start = 0; start < N; start++) {
+                String hexValue = sb.substring(start, start + length);
+                set.add(Integer.parseInt(hexValue, 16));
+            }
+             
 			
 			// 회전 후 
 			for(int k = 0;k<length;k++) {
