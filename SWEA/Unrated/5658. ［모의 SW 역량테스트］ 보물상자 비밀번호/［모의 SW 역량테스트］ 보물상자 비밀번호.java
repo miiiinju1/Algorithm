@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 public class Solution {
 
@@ -23,7 +23,7 @@ public class Solution {
 			int N = Integer.parseInt(st.nextToken());
 			int K = Integer.parseInt(st.nextToken());
 			
-			TreeSet<Integer> set = new TreeSet<>(Comparator.reverseOrder());
+			Set<Integer> set = new HashSet<>();
 			StringBuilder sb = new StringBuilder(br.readLine());
 
 			int length = N/4;
@@ -42,15 +42,13 @@ public class Solution {
 				}
 			}
 			
-			int k = 1;
-			for(Integer i : set) {
-				if(k==K) {
-					bw.write("#"+tc+" "+i+"\n");
-					break;
-				}
-				++k;
-			}
-			
+			int i = set.stream()
+				.sorted(Comparator.reverseOrder())
+				.limit(K)
+				.max(Comparator.reverseOrder())
+				.get();
+
+			bw.write("#"+tc+" "+i+"\n");
 		}
 		bw.flush();
 		bw.close();
