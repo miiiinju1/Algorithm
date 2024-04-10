@@ -45,7 +45,7 @@ public class Solution {
 			int i = set.stream()
 				.sorted(Comparator.reverseOrder())
 				.limit(K)
-				.max(Comparator.reverseOrder())
+				.min(Integer::compareTo)
 				.get();
 
 			bw.write("#"+tc+" "+i+"\n");
