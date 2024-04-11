@@ -46,14 +46,6 @@ public class Main {
 		
 		int sum = sum(map);
 		System.out.println(sum);
-//		if(sum==0) {
-//			System.out.println(0);
-//			return;
-		
-		
-		
-//		}
-		
 		System.out.println(largest(map));
 		
 		
@@ -82,10 +74,7 @@ public class Main {
 		
 		for(int i= 0;i<map.length;i++) {
 			for(int j= 0;j<map[0].length;j++) {
-//				if(map[i][j]==0) {
-//					visited[i][j] = true;
-//				}
-				
+
 				if(!visited[i][j] && map[i][j]!=0) {
 					
 					int temp = 0;
@@ -195,17 +184,14 @@ public static int[][] rotate(int[][] map, int L) {
 		for (int colStart = 0; colStart < map.length; colStart += d) {
 		    for (int rowStart = 0; rowStart < map[0].length; rowStart += d) {
 		    	
-		    	
-		    	for(int y =colStart; y < colStart+d; y++) {
-		            for(int x = rowStart; x < rowStart+d; x++) {
-		            	
-		            	int oy = y-colStart;
-		            	int ox = x - rowStart;
-		            	int ry = ox;
-		            	int rx = d-oy-1;
-		            	result[colStart+ry][rowStart+rx] = map[y][x];
-		            } 
-		        }
+		    	for(int i = 0;i<d;i++) {
+		    		for(int j= 0;j<d;j++) {
+		    			
+		    			result[colStart+j][rowStart+d-i-1] = map[colStart+i][rowStart+j];
+		    			
+		    		}
+		    	}
+
 		    }
 		}
 		
