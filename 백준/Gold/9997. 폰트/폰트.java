@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +12,6 @@ public class Main {
         }
         return ary;
     }
-//    static Map<Integer, Map<Character, Integer>> strings;
 
     static int[][] strings;
     static int N;
@@ -41,15 +39,15 @@ public class Main {
         search(depth+1, countMap);
 
         // 현재 알파벳 더해서 넘기기
-        search(depth + 1, addMap(countMap, strings[depth]));
+        search(depth + 1, addMap(countMap, depth));
     }
 
 
-    static int[] addMap(int[] map1, int[] map2) {
+    static int[] addMap(int[] map1, int depth) {
         int[] map = new int[26];
 
         for(int i= 0;i<26;i++) {
-            map[i] = map1[i]+map2[i];
+            map[i] = map1[i]+strings[depth][i];
         }
         return map;
     }
