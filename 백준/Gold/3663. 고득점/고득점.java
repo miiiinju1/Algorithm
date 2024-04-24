@@ -11,11 +11,7 @@ public class Main {
         for(;i<26;i++) ary[i] = 26-i;
         for(int tc = 0;tc<T;tc++) {
             final String str = br.readLine();
-            int[] length = new int[str.length()];
             int sum = 0;
-            if(str.charAt(0)=='A') {
-                length[0] = 1;
-            }
             for(int s = 0;s<str.length();s++) {
                 sum+= ary[str.charAt(s)-'A'];
             }
@@ -23,7 +19,6 @@ public class Main {
             sum += shortest(str);
 
             bw.write(sum + "\n" );
-
         }
         bw.flush();bw.close();
 
