@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,11 +53,14 @@ public class Main {
 
         for(int i= 0;i<N;i++) {
             for(int j= 0;j<N;j++) {
-                search(i, j);
+                if(value[i][j]==-1) 
+                    search(i, j);
 
             }
         }
         System.out.println(result);
 
     }
+
+
 }
