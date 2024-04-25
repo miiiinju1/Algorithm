@@ -4,6 +4,10 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
+    static int N,M;
+    static List<Node>[][] map;
+    static int[][] value;
+
     static class Point {
         int y, x;
 
@@ -12,115 +16,82 @@ public class Main {
             this.x = x;
         }
     }
+    static class Node {
+        int y, x, cost;
 
-    static class Edge {
-        int cost;
-        Point point;
-
-        public Edge(int cost, Point point) {
+        public Node(int y, int x, int cost) {
+            this.y = y;
+            this.x = x;
             this.cost = cost;
-            this.point = point;
         }
     }
-    static int N,M;
-    static List<Edge>[][] graph;
-    static int[][] dist;
-
+    static int[] dy = {};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        graph = new ArrayList[N + 1][M + 1];
-        dist = new int[N + 1][M + 1];
-
-        for (int i = 0; i <= N; i++) {
-            for (int j = 0; j <= M; j++) {
-                graph[i][j] = new ArrayList<>();
-                dist[i][j] = Integer.MAX_VALUE;
+        map = new ArrayList[N + 1][M + 1];
+        value = new int[N + 1][M + 1];
+        for(int i= 0;i<=N;i++) {
+            for(int j= 0;j<=M;j++) {
+                map[i][j] = new ArrayList<>();
+                Arrays.fill(value[i], Integer.MAX_VALUE);
             }
         }
-
         for (int i = 0; i < N; i++) {
-            String s = br.readLine();
+
+            final String s = br.readLine();
             for (int j = 0; j < M; j++) {
-                if (s.charAt(j) == '/') {
-                    graph[i][j + 1].add(new Edge(0, new Point(i + 1, j)));
-                    graph[i + 1][j].add(new Edge(0, new Point(i, j + 1)));
+                if(s.charAt(j)=='/') {
+                    map[i][j].add(new Node(i + 1, j + 1, 1));
+                    map[i + 1][j + 1].add(new Node(i, j, 1));
 
-                    // 돌리면 cost 1추가 후
-                    graph[i][j].add(new Edge(1, new Point(i + 1, j + 1)));
-                    graph[i + 1][j + 1].add(new Edge(1, new Point(i, j)));
-                } else {
-                    graph[i][j].add(new Edge(0, new Point(i + 1, j + 1)));
-                    graph[i + 1][j + 1].add(new Edge(0, new Point(i, j)));
+                    map[i + 1][j].add(new Node(i, j + 1, 0));
+                    map[i][j + 1].add(new Node(i + 1, j, 0));
 
-                    graph[i][j + 1].add(new Edge(1, new Point(i + 1, j)));
-                    graph[i + 1][j].add(new Edge(1, new Point(i, j + 1)));
+                }
+                else {
+                    map[i][j].add(new Node(i + 1, j + 1, 0));
+                    map[i + 1][j + 1].add(new Node(i, j, 0));
+
+                    map[i + 1][j].add(new Node(i, j + 1, 1));
+                    map[i][j + 1].add(new Node(i + 1, j, 1));
                 }
             }
         }
 
-        zeroOneBFS();
 
-        if (dist[N][M] == Integer.MAX_VALUE) {
-            System.out.println("NO SOLUTION");
-        } else {
-            System.out.println(dist[N][M]);
-        }
+        ArrayDeque<Point> q = new ArrayDeque<>();
+        q.add(new Point(0, 0));
+        value[0][0] = 0;
 
-    }
-    static void zeroOneBFS() {
-        Deque<Point> deque = new ArrayDeque<>();
-        dist[0][0] = 0;
-        deque.addFirst(new Point(0, 0));
+        while (!q.isEmpty()) {
+            final Point now = q.removeFirst();
 
-        while (!deque.isEmpty()) {
-            Point now = deque.removeFirst();
-            int y = now.y;
-            int x = now.x;
+            final List<Node> nodes = map[now.y][now.x];
 
-            for (Edge edge : graph[y][x]) {
-                int Y = edge.point.y;
-                int X = edge.point.x;
-                int newCost = dist[y][x] + edge.cost;
+            for (Node node : nodes) {
+                if(value[node.y][node.x] > value[now.y][now.x] + node.cost) {
+                    value[node.y][node.x] = value[now.y][now.x] + node.cost;
 
-                if (dist[Y][X] > newCost) {
-                    dist[Y][X] = newCost;
-                    if (edge.cost == 0) {
-                        deque.addFirst(new Point(Y, X));
-                    } else {
-                        deque.addLast(new Point(Y, X));
+                    if(node.cost==0) {
+                        q.addFirst(new Point(node.y, node.x));
+                    }
+                    else {
+                        q.addLast(new Point(node.y, node.x));
                     }
                 }
+
             }
         }
-    }
-
-    static void dijkstra() {
-        PriorityQueue<Edge> pq = new PriorityQueue<>(Comparator.comparingInt(e -> e.cost));
-        dist[0][0] = 0;
-        pq.add(new Edge(0, new Point(0, 0)));
-
-        while (!pq.isEmpty()) {
-            Edge now = pq.poll();
-            int y = now.point.y;
-            int x = now.point.x;
-
-            if (dist[y][x] < now.cost) continue;
-
-            for (Edge edge : graph[y][x]) {
-                int newCost = now.cost + edge.cost;
-                int Y = edge.point.y;
-                int X = edge.point.x;
-
-                if (dist[Y][X] > newCost) {
-                    dist[Y][X] = newCost;
-                    pq.add(new Edge(newCost, new Point(Y, X)));
-                }
-            }
+        if (value[N][M] == Integer.MAX_VALUE) {
+            System.out.println("NO SOLUTION");
+        } else {
+            System.out.println(value[N][M]);
         }
-    }
 
+    }
 }
