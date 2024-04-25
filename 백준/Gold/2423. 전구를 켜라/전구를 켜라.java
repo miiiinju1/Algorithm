@@ -25,7 +25,6 @@ public class Main {
             this.cost = cost;
         }
     }
-    static int[] dy = {};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -46,12 +45,11 @@ public class Main {
             final String s = br.readLine();
             for (int j = 0; j < M; j++) {
                 if(s.charAt(j)=='/') {
-                    map[i][j].add(new Node(i + 1, j + 1, 1));
-                    map[i + 1][j + 1].add(new Node(i, j, 1));
-
                     map[i + 1][j].add(new Node(i, j + 1, 0));
                     map[i][j + 1].add(new Node(i + 1, j, 0));
-
+                    
+                    map[i][j].add(new Node(i + 1, j + 1, 1));
+                    map[i + 1][j + 1].add(new Node(i, j, 1));
                 }
                 else {
                     map[i][j].add(new Node(i + 1, j + 1, 0));
