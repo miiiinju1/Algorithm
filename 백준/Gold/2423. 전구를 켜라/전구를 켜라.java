@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,21 +48,21 @@ public class Main {
                 if (s.charAt(j) == '/') {
                     graph[i][j + 1].add(new Edge(0, new Point(i + 1, j)));
                     graph[i + 1][j].add(new Edge(0, new Point(i, j + 1)));
-                    
-                    // 돌리면 cost 1추가 후 
+
+                    // 돌리면 cost 1추가 후
                     graph[i][j].add(new Edge(1, new Point(i + 1, j + 1)));
                     graph[i + 1][j + 1].add(new Edge(1, new Point(i, j)));
                 } else {
                     graph[i][j].add(new Edge(0, new Point(i + 1, j + 1)));
                     graph[i + 1][j + 1].add(new Edge(0, new Point(i, j)));
-                    
+
                     graph[i][j + 1].add(new Edge(1, new Point(i + 1, j)));
                     graph[i + 1][j].add(new Edge(1, new Point(i, j + 1)));
                 }
             }
         }
-        
-        dijkstra();
+
+        zeroOneBFS();
 
         if (dist[N][M] == Integer.MAX_VALUE) {
             System.out.println("NO SOLUTION");
@@ -71,6 +70,32 @@ public class Main {
             System.out.println(dist[N][M]);
         }
 
+    }
+    static void zeroOneBFS() {
+        Deque<Point> deque = new ArrayDeque<>();
+        dist[0][0] = 0;
+        deque.addFirst(new Point(0, 0));
+
+        while (!deque.isEmpty()) {
+            Point now = deque.removeFirst();
+            int y = now.y;
+            int x = now.x;
+
+            for (Edge edge : graph[y][x]) {
+                int Y = edge.point.y;
+                int X = edge.point.x;
+                int newCost = dist[y][x] + edge.cost;
+
+                if (dist[Y][X] > newCost) {
+                    dist[Y][X] = newCost;
+                    if (edge.cost == 0) {
+                        deque.addFirst(new Point(Y, X));
+                    } else {
+                        deque.addLast(new Point(Y, X));
+                    }
+                }
+            }
+        }
     }
 
     static void dijkstra() {
