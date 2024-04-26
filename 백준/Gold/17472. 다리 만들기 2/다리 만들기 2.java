@@ -9,15 +9,6 @@ public class Main {
     static class Point {
         int y, x;
 
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("Point{");
-            sb.append("y=").append(y);
-            sb.append(", x=").append(x);
-            sb.append('}');
-            return sb.toString();
-        }
-
         public Point(int y, int x) {
             this.y = y;
             this.x = x;
@@ -64,16 +55,6 @@ public class Main {
     static class Bridge {
         int from, to, length;
 
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("Bridge{");
-            sb.append("from=").append(from);
-            sb.append(", to=").append(to);
-            sb.append(", length=").append(length);
-            sb.append('}');
-            return sb.toString();
-        }
-
         public Bridge(int from, int to, int length) {
             this.from = from;
             this.to = to;
@@ -81,8 +62,7 @@ public class Main {
         }
     }
 
-    static Bridge buildBridge(int y, int x, int d, int from, int length, boolean[][] visited) {
-
+    static Bridge buildBridge(int y, int x, int d, int from, int length) {
 
         if(map[y][x] != from && map[y][x] != 0) {
             if(length>=2)
@@ -93,16 +73,14 @@ public class Main {
         int Y = dy[d]+y;
         int X = dx[d]+x;
 
-        if(isValid(Y,X) && !visited[Y][X]) {
-//            visited[Y][X] = true;
-
+        if(isValid(Y,X)) {
             if (map[y][x] == 0) {
-                return buildBridge(Y, X, d, from, length + 1, visited);
+                return buildBridge(Y, X, d, from, length + 1);
             }
             else if(map[y][x] == from) {
-                return buildBridge(Y, X, d, from, 0, visited);
+                return buildBridge(Y, X, d, from, 0);
             }
-            return buildBridge(Y, X, d, from, length, visited);
+            return buildBridge(Y, X, d, from, length);
         }
         return null;
     }
@@ -120,14 +98,11 @@ public class Main {
         for (Map.Entry<Integer, List<Point>> entry : islands.entrySet()) {
 
             int from = entry.getKey();
-
-            boolean[][] visited = new boolean[N][M];
-
-
+            
             final List<Point> ground = entry.getValue();
             for (Point point : ground) {
                 for(int d = 0;d<4;d++) {
-                    Bridge result = buildBridge(point.y, point.x, d, from, 0, visited);
+                    Bridge result = buildBridge(point.y, point.x, d, from, 0);
                     if(result!=null && connected[result.from][result.to] > result.length &&  result.length>=2) {
                         connected[result.from][result.to] = result.length;
                         connected[result.to][result.from] = result.length;
@@ -203,66 +178,3 @@ public class Main {
 
     }
 }
-
-//4 8
-//0 0 0 0 0 0 1 1
-//1 0 0 1 1 0 1 1
-//1 1 1 1 0 0 0 0
-//1 1 0 0 0 1 1 0
-
-//6 5
-//1 1 0 0 1
-//1 1 0 0 1
-//0 0 0 0 1
-//0 0 0 0 1
-//0 0 0 0 1
-//1 1 1 1 1
-
-//9 6
-//0 0 0 0 1 0
-//0 0 0 0 0 0
-//0 1 0 0 0 1
-//0 0 0 0 0 0
-//0 0 0 0 0 0
-//0 1 0 0 1 1
-//0 0 0 0 0 0
-//0 0 0 0 0 0
-//0 1 0 0 0 0
-//3 7
-//1 0 0 1 0 0 1
-//1 0 0 1 0 0 1
-//1 1 1 1 0 0 0
-
-//3 9
-//1 0 1 0 0 0 1 1 0
-//1 1 0 0 0 1 1 0 1
-//0 0 1 0 0 1 0 0 1
-
-//8 8
-//1 1 1 1 1 1 1 1
-//1 0 0 0 0 0 0 1
-//1 0 0 0 0 0 0 1
-//1 0 0 1 1 0 0 1
-//1 0 0 0 0 0 0 1
-//1 0 0 0 0 0 0 1
-//1 0 0 0 0 0 0 1
-//1 1 1 1 1 1 1 1
-
-//5 6
-//1 1 0 0 0 1
-//1 1 0 0 0 1
-//0 0 0 0 0 1
-//0 0 0 0 0 1
-//1 1 1 1 1 1
-
-//4 8
-//0 0 0 0 0 0 1 1
-//1 0 0 1 1 0 1 1
-//1 1 1 1 0 0 0 0
-//1 1 0 0 0 1 1 0
-
-//4 6
-//0 1 1 0 1 1
-//1 0 1 0 0 1
-//1 0 1 1 0 0
-//1 0 1 1 1 0
