@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,29 +8,7 @@ import java.util.StringTokenizer;
 public class Main {
 
     static List<Integer>[] ary;
-
-    static long[] search(long[] count, int index) {
-
-        if(index== N) {
-            return count;
-        }
-        long[] temp = new long[H+1];
-
-//        for (Integer num : ary[index]) {
-//            temp[num] += 1;
-//        }
-        for(int i = 0;i<=H;i++) {
-            if(count[i]!=0) {
-                for (Integer num : ary[index]) {
-                    if(i+num<=H) {
-                        temp[i+num] = (temp[i+num]+count[i])%10007;
-                    }
-                }
-            }
-        }
-        return search(temp, index + 1);
-    }
-
+    
     static int N, H;
 
     public static void main(String[] args) throws IOException {
@@ -53,14 +30,24 @@ public class Main {
             }
         }
 
-        long[] initial = new long[H+1];
+        int[][] dp = new int[N][H+1];
         for (Integer i : ary[0]) {
-            initial[i] += 1;
+            dp[0][i] += 1;
         }
 
-        final long[] search = search(initial, 1);
+        for(int i = 1;i<N;i++) {
+            for(int j = 0;j<=H;j++) {
+                if(dp[i-1][j]!=0) {
+                    for (Integer num : ary[i]) {
+                        if(j+num<=H) {
+                            dp[i][j+num] = (dp[i][j+num]+dp[i-1][j])%10007;
+                        }
+                    }
+                }
+            }
+        }
 
-        System.out.println(search[H]);
+        System.out.println(dp[N-1][H]);
 
     }
 }
