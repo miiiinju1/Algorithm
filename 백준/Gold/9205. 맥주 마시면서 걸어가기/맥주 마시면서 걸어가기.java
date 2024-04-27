@@ -1,11 +1,14 @@
+
 import java.io.*;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static class Store {
-        int y,x,i;
+    static class Store implements Comparable<Store> {
+        int y, x, i;
+        int gValue; // 현재 노드까지의 비용
+        int fValue; // f(N) 값은 gValue와 휴리스틱 값의 합
 
         @Override
         public String toString() {
@@ -14,6 +17,16 @@ public class Main {
             sb.append(", x=").append(x);
             sb.append('}');
             return sb.toString();
+        }
+        @Override
+        public int compareTo(Store o) {
+            return this.fValue - o.fValue;
+        }
+
+        // fValue 계산을 위한 함수
+        public void calculateFValue(int destY, int destX) {
+            int hValue = Math.abs(this.y - destY) + Math.abs(this.x - destX); // 휴리스틱 함수 (맨해튼 거리)
+            this.fValue = this.gValue + hValue;
         }
 
         public Store(int y, int x,int i) {
@@ -46,8 +59,12 @@ public class Main {
             }
             boolean[] visited = new boolean[N];
 
-            ArrayDeque<Store> q = new ArrayDeque<>();
-            q.add(new Store(startY, startX,-1));
+            PriorityQueue<Store> q = new PriorityQueue<>();
+            Store start = new Store(startY, startX, -1);
+            start.gValue = 0; // 시작 지점에서의 gValue는 0
+            start.calculateFValue(destY, destX); // 시작 지점에서의 fValue 계산
+            q.add(start);
+
             while(!q.isEmpty()) {
                 Store now = q.poll();
                 int nowY = now.y;
@@ -64,10 +81,12 @@ public class Main {
 
                 for (int i = 0; i < N; i++) {
                     if (!visited[i] && Math.abs(nowX - stores.get(i).x) + Math.abs(nowY - stores.get(i).y) <= 1000) {
+//                        min = Math.abs(nowX - stores.get(i).x) + Math.abs(nowY - stores.get(i).y);
                         q.add(new Store(stores.get(i).y, stores.get(i).x, i));
 
                     }
                 }
+//
             }
             bw.write("sad\n");
 
@@ -78,4 +97,3 @@ public class Main {
         bw.flush();bw.close();
     }
 }
-
