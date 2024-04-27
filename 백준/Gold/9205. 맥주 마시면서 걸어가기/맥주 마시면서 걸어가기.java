@@ -1,10 +1,79 @@
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 
 public class Main {
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public String readLine() throws IOException {
+            byte[] buf = new byte[64]; // line length
+            int cnt = 0, c;
+            while ((c = read()) != -1) {
+                if (c == '\n') {
+                    if (cnt != 0) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+                buf[cnt++] = (byte) c;
+            }
+            return new String(buf, 0, cnt);
+        }
+
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') {
+                c = read();
+            }
+            boolean neg = (c == '-');
+            if (neg) {
+                c = read();
+            }
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+
+            if (neg) {
+                return -ret;
+            }
+            return ret;
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) {
+                buffer[0] = -1;
+            }
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) {
+                fillBuffer();
+            }
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din != null) {
+                din.close();
+            }
+        }
+    }
     static class Store implements Comparable<Store> {
         int y, x, i;
         int gValue; // 현재 노드까지의 비용
@@ -34,25 +103,26 @@ public class Main {
             this.x = x;
             this.i=i;
         }
+        private int heuristic(Store destination) {
+            return Math.abs(this.y - destination.y) + Math.abs(this.x - destination.x);
+        }
     }
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int T = Integer.parseInt(br.readLine());
-        a : for (int tc = 0; tc < T; tc++) {
-            int N = Integer.parseInt(br.readLine());
-            StringTokenizer st = new StringTokenizer(br.readLine());
+        Reader input = new Reader();
 
-            int startY = Integer.parseInt(st.nextToken());
-            int startX = Integer.parseInt(st.nextToken());
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = input.nextInt();
+        a : for (int tc = 0; tc < T; tc++) {
+            int N = input.nextInt();;
+
+            int startY = input.nextInt();
+            int startX = input.nextInt();
             ArrayList<Store> stores = new ArrayList<>();
             for (int i = 0; i < N; i++) {
-                st = new StringTokenizer(br.readLine());
-                stores.add(new Store(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),-1));
+                stores.add(new Store(input.nextInt(), input.nextInt(),-1));
             }
-            st = new StringTokenizer(br.readLine());
-            int destY = Integer.parseInt(st.nextToken());
-            int destX = Integer.parseInt(st.nextToken());
+            int destY = input.nextInt();
+            int destX = input.nextInt();
             if(Math.abs(startX-destX)+Math.abs(startY-destY)<=1000) {
                 bw.write("happy\n");
                 continue a;
@@ -61,8 +131,8 @@ public class Main {
 
             PriorityQueue<Store> q = new PriorityQueue<>();
             Store start = new Store(startY, startX, -1);
-            start.gValue = 0; // 시작 지점에서의 gValue는 0
-            start.calculateFValue(destY, destX); // 시작 지점에서의 fValue 계산
+            start.gValue = 0;
+            start.calculateFValue(destY, destX);
             q.add(start);
 
             while(!q.isEmpty()) {
@@ -81,8 +151,10 @@ public class Main {
 
                 for (int i = 0; i < N; i++) {
                     if (!visited[i] && Math.abs(nowX - stores.get(i).x) + Math.abs(nowY - stores.get(i).y) <= 1000) {
-//                        min = Math.abs(nowX - stores.get(i).x) + Math.abs(nowY - stores.get(i).y);
-                        q.add(new Store(stores.get(i).y, stores.get(i).x, i));
+                        Store next = new Store(stores.get(i).y, stores.get(i).x, i);
+                        next.gValue = now.gValue + now.heuristic(next);
+                        next.calculateFValue(destY, destX);
+                        q.add(next);
 
                     }
                 }
@@ -97,3 +169,121 @@ public class Main {
         bw.flush();bw.close();
     }
 }
+
+
+//2
+//2
+//2000 1000
+//1000 0
+//1000 1000
+//2000 1000
+//2
+//0 0
+//1000 0
+//2000 1000
+//2000 2000
+
+//1
+//100
+//-300 -400
+//0 0
+//0 1000
+//0 2000
+//0 3000
+//0 4000
+//0 5000
+//0 6000
+//0 7000
+//0 8000
+//0 9000
+//1000 0
+//1000 1000
+//1000 2000
+//1000 3000
+//1000 4000
+//1000 5000
+//1000 6000
+//1000 7000
+//1000 8000
+//1000 9000
+//2000 0
+//2000 1000
+//2000 2000
+//2000 3000
+//2000 4000
+//2000 5000
+//2000 6000
+//2000 7000
+//2000 8000
+//2000 9000
+//3000 0
+//3000 1000
+//3000 2000
+//3000 3000
+//3000 4000
+//3000 5000
+//3000 6000
+//3000 7000
+//3000 8000
+//3000 9000
+//4000 0
+//4000 1000
+//4000 2000
+//4000 3000
+//4000 4000
+//4000 5000
+//4000 6000
+//4000 7000
+//4000 8000
+//4000 9000
+//5000 0
+//5000 1000
+//5000 2000
+//5000 3000
+//5000 4000
+//5000 5000
+//5000 6000
+//5000 7000
+//5000 8000
+//5000 9000
+//6000 0
+//6000 1000
+//6000 2000
+//6000 3000
+//6000 4000
+//6000 5000
+//6000 6000
+//6000 7000
+//6000 8000
+//6000 9000
+//7000 0
+//7000 1000
+//7000 2000
+//7000 3000
+//7000 4000
+//7000 5000
+//7000 6000
+//7000 7000
+//7000 8000
+//7000 9000
+//8000 0
+//8000 1000
+//8000 2000
+//8000 3000
+//8000 4000
+//8000 5000
+//8000 6000
+//8000 7000
+//8000 8000
+//8000 9000
+//9000 0
+//9000 1000
+//9000 2000
+//9000 3000
+//9000 4000
+//9000 5000
+//9000 6000
+//9000 7000
+//9000 8000
+//9000 9000
+//9500 9500
