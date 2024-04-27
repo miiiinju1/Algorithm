@@ -152,8 +152,8 @@ public class Main {
                 for (int i = 0; i < N; i++) {
                     if (!visited[i] && Math.abs(nowX - stores.get(i).x) + Math.abs(nowY - stores.get(i).y) <= 1000) {
                         Store next = new Store(stores.get(i).y, stores.get(i).x, i);
-                        next.gValue = now.gValue + now.heuristic(next);
-                        next.calculateFValue(destY, destX);
+                      //  next.gValue = now.gValue + now.heuristic(next);
+//next.calculateFValue(destY, destX);
                         q.add(next);
 
                     }
