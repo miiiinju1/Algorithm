@@ -14,7 +14,7 @@ public class Main {
         int T = Integer.parseInt(br.readLine());
 
         int N = Integer.parseInt(br.readLine());
-        long[] a = new long[N+1];
+        int[] a = new int[N+1];
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         for(int i= 1;i<=N;i++) {
@@ -27,7 +27,7 @@ public class Main {
         }
 
         int M = Integer.parseInt(br.readLine());
-        long[] b = new long[M+1];
+        int[] b = new int[M+1];
         st = new StringTokenizer(br.readLine());
 
         for(int i= 1;i<=M;i++) {
@@ -37,42 +37,33 @@ public class Main {
             b[i]+=b[i-1];
         }
 
-        Map<Long, Long> aCount = new HashMap<>();
-        Map<Long, Long> bCount = new HashMap<>();
+        Map<Integer, Integer> aCount = new HashMap<>();
+        Map<Integer, Integer> bCount = new HashMap<>();
 
         for(int i = N;i>=0;i--) {
             for(int j= 0;j<i;j++) {
-                long temp = a[i] - a[j];
-                aCount.put(temp, aCount.getOrDefault(temp, 0L) + 1);
+                int temp = a[i] - a[j];
+                aCount.put(temp, aCount.getOrDefault(temp, 0) + 1);
             }
         }
         for(int i = M;i>=0;i--) {
             for(int j= 0;j<i;j++) {
-                long temp = b[i] - b[j];
-                bCount.put(temp, bCount.getOrDefault(temp, 0L) + 1);
+                int temp = b[i] - b[j];
+                bCount.put(temp, bCount.getOrDefault(temp, 0) + 1);
             }
         }
 
 
         final long sum = aCount.entrySet().stream()
                 .filter(ent -> bCount.containsKey(T - ent.getKey()))
-                .mapToLong(ent -> (ent.getValue() * bCount.get(T - ent.getKey())))
+                .mapToLong(ent -> ((long)ent.getValue() * bCount.get(T - ent.getKey())))
                 .sum();
 
         System.out.println(sum);
+
 
     }
 
    
 }
 
-
-// 0 1 4 5 7
-
-// 7
-
-//5
-//4
-//-1 -3 1 2
-//3
-//1 3 2
