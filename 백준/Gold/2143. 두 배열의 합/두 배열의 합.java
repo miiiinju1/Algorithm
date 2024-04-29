@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -34,82 +37,33 @@ public class Main {
             b[i]+=b[i-1];
         }
 
+        Map<Long, Long> aCount = new HashMap<>();
+        Map<Long, Long> bCount = new HashMap<>();
 
-        List<Long> A = new ArrayList<>();
         for(int i = N;i>=0;i--) {
             for(int j= 0;j<i;j++) {
-                A.add(a[i] - a[j]);
+                long temp = a[i] - a[j];
+                aCount.put(temp, aCount.getOrDefault(temp, 0L) + 1);
             }
         }
-
-        List<Long> B = new ArrayList<>();
         for(int i = M;i>=0;i--) {
             for(int j= 0;j<i;j++) {
-                B.add(b[i] - b[j]);
+                long temp = b[i] - b[j];
+                bCount.put(temp, bCount.getOrDefault(temp, 0L) + 1);
             }
         }
 
-        Collections.sort(A, Collections.reverseOrder());
-        Collections.sort(B);
 
-//        System.out.println("A = " + A);
-//        System.out.println("B = " + B);
-        int i = 0;
-        long sum = 0;
-        while(true) {
-            if(i==A.size()) {
-                break;
-            }
+        final long sum = aCount.entrySet().stream()
+                .filter(ent -> bCount.containsKey(T - ent.getKey()))
+                .mapToLong(ent -> (ent.getValue() * bCount.get(T - ent.getKey())))
+                .sum();
 
-            int lB = lowerBound(T - A.get(i), B.size(), B);
-            int uB = upperBound(T - A.get(i), B.size(), B);
-
-//            System.out.println(i);
-//            System.out.println("uB = " + uB);
-//            System.out.println("lB = " + lB);
-            if(lB<B.size()&&B.get(lB)==T-A.get(i)) {
-                sum += (uB - lB+1);
-            }
-            i++;
-        }
         System.out.println(sum);
 
-        //약 100만 개 배열 두 개가 있을 때, 하나씩 포인터 이동
-
     }
 
-    static int lowerBound(long bValue, int bSize, List<Long> B) {
-
-        int lo = -1, hi = bSize;
-
-        while(lo+1<hi) {
-            int mid = (hi-lo)/2 + lo;
-            if(B.get(mid) >= bValue) {
-                hi = mid;
-            }
-            else {
-                lo = mid;
-            }
-        }
-
-        return hi;
-
-    }
-    static int upperBound(long bValue, int bSize, List<Long> B) {
-        int lo = 0, hi = bSize;
-
-        while(lo+1<hi) {
-            int mid = (hi-lo)/2 + lo;
-            if(B.get(mid) > bValue) {
-                hi = mid;
-            }
-            else {
-                lo = mid;
-            }
-        }
-
-        return lo;
-    }
+   
 }
 
 
