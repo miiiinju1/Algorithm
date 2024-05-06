@@ -18,21 +18,13 @@ public class Main {
 
 
         if(fa!=fb) {
-            if(count[fa]>=1) {
-                count[fa]-=1;
+            if(count[fa]>=1 || count[fb]>=1) {
                 count[fb] += count[fa];
+                count[fb] -=1;
                 count[fa] = 0;
                 parent[fa] = fb;
                 return true;
             }
-            if(count[fb]>=1) {
-                count[fb]-=1;
-                count[fb] += count[fa];
-                count[fa] = 0;
-                parent[fa] = fb;
-                return true;
-            }
-
             parent[fa] = fb;
             count[fb] += count[fa];
             count[fa] = 0;
