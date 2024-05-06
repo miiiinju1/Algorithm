@@ -16,28 +16,16 @@ public class Main {
 
         int fb = find(b);
 
-
-        if(fa!=fb) {
-            if(count[fa]>=1 || count[fb]>=1) {
-                count[fb] += count[fa];
-                count[fb] -=1;
-                count[fa] = 0;
-                parent[fa] = fb;
-                return true;
-            }
-            parent[fa] = fb;
+        parent[fa] = fb;
+        if(fb!=fa) {
             count[fb] += count[fa];
             count[fa] = 0;
-            return false;
-
         }
-        else {
-            if(count[fb]>=1) {
-                count[fb]-=1;
-                return true;
-            }
-            return false;
+        if(count[fb]>=1) {
+            count[fb]-=1;
+            return true;
         }
+        return false;
     }
 
 
