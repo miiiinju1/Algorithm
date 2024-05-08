@@ -34,8 +34,6 @@ public class Main {
 
         int count = 0;
 
-        boolean[][][] visited = new boolean[H][W][8];
-
         while(!q.isEmpty()) {
             final Point now = q.poll();
 
@@ -46,9 +44,8 @@ public class Main {
                 int x = dx[d] + now.x;
 
                 if (isValid(y, x)) {
-                    if (map[y][x] != FALL && !visited[now.y][now.x][d]) {
+                    if (map[y][x] != FALL) {
                         map[y][x]-=1;
-                        visited[now.y][now.x][d] = true;
 
                         if(map[y][x]<=0) {
                             map[y][x] = FALL;
