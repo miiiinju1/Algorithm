@@ -34,10 +34,7 @@ public class Main {
 
         int count = 0;
 
-//        int[][][] visited = new int[H][W][8];
         boolean[][][] visited = new boolean[H][W][8];
-//        for(int i= 0;i<H;i++)
-//            Arrays.fill(visited[i][j], -1);
 
         while(!q.isEmpty()) {
             final Point now = q.poll();
@@ -54,6 +51,7 @@ public class Main {
                         visited[now.y][now.x][d] = true;
 
                         if(map[y][x]<=0) {
+                            map[y][x] = FALL;
                             q.add(new Point(y, x, now.depth + 1));
                         }
                     }
@@ -61,94 +59,8 @@ public class Main {
             }
         }
 
-        System.out.println(count - 1);
+        System.out.println(count);
 
-//        while(true) {
-//            for(int a = 0;a<H;a++) {
-//                for(int b= 0;b<W;b++) {
-//                    if(map[a][b]!=FALL) {
-//
-//                    }
-//                }
-//            }
-//
-//            Deque<Point> q = new ArrayDeque<>();
-//            q.add(new Point(0, 0));
-//            while(!q.isEmpty()) {
-//                final Point now = q.poll();
-//
-//                for (int d = 0; d < 4; d++) {
-//                    int y = dy4[d] + now.y;
-//                    int x = dx4[d] + now.x;
-//                    if (isValid(y, x)) {
-//                        if (map[y][x] == FALL && visited[y][x] != count) {
-//                            visited[y][x] = count;
-//                            q.add(new Point(y, x));
-//                        }
-//                    }
-//
-//                }
-//            }
-//
-//
-//            if(map[a][b]!=FALL) {
-//                int tempCount = 0;
-//                for (int d = 0; d < 8; d++) {
-//                    int y = dy[d] + a;
-//                    int x = dx[d] + b;
-//
-//                    if (isValid(y, x)) {
-//                        if (temp[y][x] == FALL) {
-//                            tempCount++;
-//                        }
-//                    }
-//                }
-//                if (tempCount >= map[a][b]) {
-//                    map[a][b] = FALL;
-//                }
-//            }
-
-
-//                        }
-//                    }
-
-
-//            cutting(temp, map);
-
-//            if(cutting(temp, map)) {
-//                break;
-//            }
-//            count++;
-//            map = temp;
-////        }
-//        System.out.println(count);
-
-    }
-
-    static boolean cutting(int[][] a, int[][] b) {
-        boolean flag = true;
-        for(int i= 0;i<H;i++) {
-            for(int j= 0;j<W;j++) {
-                if(a[i][j]<=0) {
-                    a[i][j] = FALL;
-                    flag = false;
-                }
-                else {
-                    a[i][j] = b[i][j];
-                }
-            }
-        }
-        return flag;
-    }
-    static boolean isSame(int[][] a, int[][] b) {
-        for(int i= 0;i<H;i++) {
-            for(int j= 0;j<W;j++) {
-                if(a[i][j] != b[i][j]) {
-                    return  false;
-                }
-            }
-        }
-        return true;
     }
     static boolean isValid(int y, int x) {
         return y >= 0 && x >= 0 && y < H && x < W;
@@ -156,42 +68,17 @@ public class Main {
     static int[] dy = {-1, -1, -1, 0, 0, 1, 1, 1};
     static int[] dx = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-    static int[] dy4 = {-1, 0, 1, 0};
-    static int[] dx4 = {0, -1, 0, 1};
 
     static class Point {
         int y, x;
         int depth;
 
-        public Point(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
+
 
         public Point(int y, int x, int depth) {
             this.y = y;
             this.x = x;
             this.depth = depth;
-        }
-    }
-    static private int[][] arrayCopy(int[][] from) {
-        int[][] result = new int[from.length][from[0].length];
-
-        for (int i = 0; i < from.length; i++) {
-
-            for (int j = 0; j < from[0].length; j++) {
-                result[i][j] = from[i][j];
-
-            }
-        }
-        return result;
-    }
-    static private void printMap(int[][] ary) {
-        for (int i = 0; i < ary.length; i++) {
-            System.out.println();
-            for (int j = 0; j < ary[0].length; j++) {
-                System.out.printf("%5d ", ary[i][j]);
-            }
         }
     }
 }
