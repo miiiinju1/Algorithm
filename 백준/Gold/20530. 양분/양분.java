@@ -26,37 +26,28 @@ public class Main {
     static Map<Integer, List<Integer>> map = new HashMap<>();
     static boolean[] visited;
 
-    static HashSet<Integer> set = new HashSet<>();
+    static boolean[] isRoot;
     static int dfs(int now, int before) {
 
         int ret = -1;
-//        System.out.println("now = " + now);
         for (Integer next : map.get(now)) {
             if(next==before) continue;
-//            if(set.contains(next)) continue;
 
             if(!visited[next]) {
                 visited[next] = true;
                 int result = dfs(next, now);
-                if(result!=-1 && result!= now) {
-//                    System.out.println("next+\" \"+result = " + now+" "+ next+" "+result);
 
-//                    System.out.println("now = " + now);
-                    set.add(now);
-                    ret = result;
-                }
                 if(result==now) {
-                    set.add(now);
+                    isRoot[now] = true;
                     return -1;
                 }
-
                 if(result!=-1) {
+                    isRoot[now] = true;
                     return result;
-
                 }
             }
             else {
-                set.add(now);
+                isRoot[now] = true;
                return next;
             }
         }
@@ -67,7 +58,7 @@ public class Main {
         for (Integer next : map.get(now)) {
             if(next == before) continue;
 
-            if(!set.contains(next)) {
+            if(!isRoot[next]) {
                 union(now, next);
                 tree(next, now);
             }
@@ -84,6 +75,7 @@ public class Main {
         int Q = Integer.parseInt(st.nextToken());
         parent = new int[N + 1];
         visited = new boolean[N + 1];
+        isRoot = new boolean[N + 1];
 
         for(int i= 0;i<=N;i++)
             parent[i] = i;
@@ -107,9 +99,11 @@ public class Main {
 //        System.out.println("set = " + set);
         dfs(1, -1);
 
-        for (Integer i : set) {
-            tree(i, -1);
+        for(int i=1;i<=N;i++) {
+            if(isRoot[i])
+                tree(i, -1);
         }
+
 
 
         int[] find = new int[N + 1];
@@ -125,12 +119,8 @@ public class Main {
                 bw.write("2\n");
             }
             else {
-                if(set.contains(a) && set.contains(b)) {
-                    bw.write("2\n");
-                }
-                else {
-                    bw.write("1\n");
-                }
+                bw.write("1\n");
+
             }
 
         }
