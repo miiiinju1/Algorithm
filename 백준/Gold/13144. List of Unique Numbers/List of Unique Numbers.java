@@ -7,7 +7,7 @@ public class Main {
         Reader reader = new Reader();
         int N = reader.nextInt();
 
-        long before = N;
+        long before = 1L;
         int[] beforeAry = new int[100001];
         Arrays.fill(beforeAry, -1);
         beforeAry[reader.nextInt()] = 0;
@@ -15,12 +15,12 @@ public class Main {
         int lastIndex = -1;
         for (int i = 1; i < N; i++) {
             int now = reader.nextInt();
-            
+
             if(beforeAry[now]!=-1) {
                 lastIndex = Math.max(lastIndex, beforeAry[now]);
             }
             beforeAry[now] = i;
-            before = before + (i - lastIndex - 1);
+            before = before + (i - lastIndex );
 
         }
         System.out.println(before);
