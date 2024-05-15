@@ -37,7 +37,7 @@ public class Main {
             for (int i = 0; i < N; i++) {
                 ary[i] = list.get(i).y;
             }
-            final double result = binarySearch(K) / 100.0;
+            final double result = binarySearch(K) / 10.0;
 //            System.out.println(i);
             bw.write(String.format("%.1f\n", result));
         }
@@ -45,7 +45,7 @@ public class Main {
     }
 
     static double binarySearch(int k) {
-        long lo = -1, hi = 10000000000L;
+        long lo = -1, hi = 1000000000L;
 
         while (lo + 1 < hi) {
             long mid = (hi - lo) / 2 + lo;
@@ -68,7 +68,7 @@ public class Main {
 
     static int check(long m) {
 
-        double mid = (double) m / 100;
+        double mid = (double) m / 10;
         int nowMin = Integer.MAX_VALUE;
         int nowMax = Integer.MIN_VALUE;
 
