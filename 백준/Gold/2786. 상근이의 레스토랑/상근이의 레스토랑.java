@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 
@@ -27,8 +26,7 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        List<Food> list = new ArrayList<>(
-               );
+        List<Food> list = new ArrayList<>();
 
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -37,33 +35,33 @@ public class Main {
             list.add(new Food(a, b));
         }
 
-        // B 값 기준으로 정렬
         list.sort(Comparator.comparingInt(o -> o.b));
 
-        long[] rbest = new long[N + 1];
-        Arrays.fill(rbest, Long.MAX_VALUE);
-
-        for (int i = N - 1; i >= 0; i--) {
-            rbest[i] = Math.min(rbest[i + 1], list.get(i).a);
-        }
-
-        long bestDisc = Long.MAX_VALUE;
         long base = 0;
+        int diff = Integer.MAX_VALUE;
 
-        for (int k = 1; k <= N; k++) {
-            long ans = base + rbest[k - 1];
+        int[] afterMinA = new int[N];
 
-            base += list.get(k - 1).b;
-            bestDisc = Math.min(bestDisc, list.get(k - 1).a - list.get(k - 1).b);
-            ans = Math.min(ans, base + bestDisc);
-            bw.write(ans + "\n");
+        afterMinA[N - 1] = list.get(N - 1).a;
+        for (int i = N - 2; i >= 0; i--) {
+            afterMinA[i] = Math.min(afterMinA[i + 1], list.get(i).a);
         }
 
 
-
-        bw.flush();bw.close();
-
+        //pq로는 안 됨 -> 마지막 그걸 알고 있어야함
 
 
+        for (int i = 0; i < N; i++) {
+
+            Food food = list.get(i);
+            diff = Math.min(diff, food.a - food.b);
+
+            bw.write((base + Math.min(food.b+diff, afterMinA[i]) + "\n"));
+            base += food.b;
+
+        }
+        bw.flush();
+        bw.close();
     }
+
 }
