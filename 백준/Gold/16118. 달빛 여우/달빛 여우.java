@@ -48,7 +48,7 @@ public class Main {
         }
     }
 
-    static Map<Integer, List<Node>> map = new HashMap<>();
+    static Map<Integer, List<Node>> map = new HashMap<>(4000);
 
     public static void main(String[] args) throws IOException {
         Reader reader = new Reader();
@@ -56,7 +56,7 @@ public class Main {
         int N = reader.nextInt();
         int M = reader.nextInt();
         for (int i = 1; i <= N; i++) {
-            map.put(i, new ArrayList<>());
+            map.put(i, new ArrayList<>(100));
         }
 
         for (int i = 0; i < M; i++) {
