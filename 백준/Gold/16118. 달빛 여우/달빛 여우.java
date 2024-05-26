@@ -56,7 +56,7 @@ public class Main {
         int N = reader.nextInt();
         int M = reader.nextInt();
         for (int i = 1; i <= N; i++) {
-            map.put(i, new ArrayList<>(100));
+            map.put(i, new ArrayList<>(1000));
         }
 
         for (int i = 0; i < M; i++) {
@@ -75,8 +75,8 @@ public class Main {
         Arrays.fill(wolf[1], Integer.MAX_VALUE);
 
 
-        PriorityQueue<Fox> foxPq = new PriorityQueue<>();
-        PriorityQueue<Wolf> wolfPq = new PriorityQueue<>();
+        PriorityQueue<Fox> foxPq = new PriorityQueue<>(10000);
+        PriorityQueue<Wolf> wolfPq = new PriorityQueue<>(10000);
 
         foxPq.add(new Fox(1, 0));
         wolfPq.add(new Wolf(1, 0, 0));
