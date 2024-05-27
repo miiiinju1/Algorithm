@@ -75,9 +75,9 @@ public class Main {
 
         int P = reader.nextInt();
 
-        Set<Integer> mustVisit = new HashSet<>();
+        boolean[] mustVisit = new boolean[N + 1];
         for(int i= 0;i<P;i++) {
-            mustVisit.add(reader.nextInt());
+            mustVisit[reader.nextInt()] = true;
         }
 
         long[][] visited = new long[2][N + 1];
@@ -114,7 +114,7 @@ public class Main {
                         visited[0][edge.next] = now.value + edge.value;
                         final Node node = new Node(edge.next, now.value + edge.value, now.visited);
 
-                        if (!node.visited && mustVisit.contains(edge.next)) {
+                        if (!node.visited && mustVisit[edge.next]) {
                             node.visited = true;
                         }
                         pq.add(node);
