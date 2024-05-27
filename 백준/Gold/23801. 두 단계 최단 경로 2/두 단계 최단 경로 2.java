@@ -78,9 +78,7 @@ public class Main {
         Set<Integer> mustVisit = new HashSet<>();
         for(int i= 0;i<P;i++) {
             mustVisit.add(reader.nextInt());
-
         }
-
 
         long[][] visited = new long[2][N + 1];
         Arrays.fill(visited[0], Long.MAX_VALUE);
@@ -93,8 +91,6 @@ public class Main {
 
         while(!pq.isEmpty()) {
             final Node now = pq.poll();
-//            System.out.println("now = " + now);
-
             if(now.now==Z) {
                 if (now.visited) {
                     System.out.println(now.value);
@@ -104,14 +100,16 @@ public class Main {
             }
 
 
-            for (Edge edge : map.get(now.now)) {
-                if(now.visited) {
+            if(now.visited) {
+                for (Edge edge : map.get(now.now)) {
                     if (visited[1][edge.next] > now.value + edge.value) {
                         visited[1][edge.next] = now.value + edge.value;
                         pq.add(new Node(edge.next, now.value + edge.value, now.visited));
                     }
                 }
-                else {
+            }
+            else {
+                for (Edge edge : map.get(now.now)) {
                     if (visited[0][edge.next] > now.value + edge.value) {
                         visited[0][edge.next] = now.value + edge.value;
                         final Node node = new Node(edge.next, now.value + edge.value, now.visited);
@@ -121,17 +119,9 @@ public class Main {
                         }
                         pq.add(node);
                     }
-//                    else if(mustVisit.contains(edge.next)) {
-//                        if (visited[1][edge.next] > now.value + edge.value) {
-//                            visited[1][edge.next] = now.value + edge.value;
-//                            final Node node = new Node(edge.next, now.value + edge.value, true);
-//                            pq.add(node);
-//                        }
-//                    }
                 }
-
-
             }
+
 
         }
         System.out.println(-1);
