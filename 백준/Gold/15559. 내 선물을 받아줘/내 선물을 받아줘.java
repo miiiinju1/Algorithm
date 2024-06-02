@@ -23,30 +23,14 @@ public class Main {
     static boolean union(int a, int b) {
         int fa = find(a);
         int fb = find(b);
-//        System.out.println("a+\" \"+b = " + a+" "+b);
-//        System.out.println("fa + \" \" + fb = " + fa + " " + fb);
 
         if (fa != fb) {
-
-            if(size[fb]>size[fa]) {
-                parent[fa] = fb;
-            }
-            else {
-                parent[fb] = fa;
-            }
+            parent[fa] = fb;
             return true;
         }
         return false;
     }
 
-    static class Point {
-        int y, x;
-
-        public Point(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -66,43 +50,25 @@ public class Main {
         for(int i= 0;i<N*M;i++) {
             parent[i] = i;
             size[i] = 1;
-
         }
 
-        char[][] map = new char[N][M];
+        int[][] map = new int[N][M];
 
         for (int i = 0; i < N; i++) {
             final String str = br.readLine();
             for (int j = 0; j < M; j++) {
-                map[i][j] = str.charAt(j);
+                map[i][j] = dir.get(str.charAt(j));
             }
         }
-
-        //탐색 하면서 방문 처리 및, union
-//        boolean[][] visited = new boolean[N][M];
-//        Deque<Point> q = new ArrayDeque<>();
 
         for(int i= 0;i<N;i++) {
             for(int j= 0;j<M;j++) {
-                int d = dir.get(map[i][j]);
+                int d = map[i][j];
                 int y = dy[d] + i;
                 int x = dx[d] + j;
                 union((i) * M + j, (y) * M + x);
-
             }
-
-
-
-
         }
-
-//
-//        for(int i = 0;i<N*M;i++) {
-//            if(i%M==0)
-//                System.out.println();
-//            System.out.print(parent[i] + " ");
-//        }
-
         Set<Integer> result = new HashSet<>();
         for(int i = 0;i<N*M;i++) {
             result.add(find(parent[i]));
