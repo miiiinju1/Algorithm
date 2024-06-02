@@ -10,7 +10,6 @@ public class Main {
     static int[] dx = {0, -1, 1, 0};
 
     static int[] parent;
-    static int[] size;
 
     static int find(int v) {
         if(parent[v] == v) {
@@ -39,17 +38,9 @@ public class Main {
         int M = Integer.parseInt(st.nextToken());
 
         parent = new int[N * M];
-        size = new int[N * M];
 
-        Map<Character, Integer> dir = new HashMap<>();
-
-        dir.put('N', 0);
-        dir.put('W', 1);
-        dir.put('E', 2);
-        dir.put('S', 3);
         for(int i= 0;i<N*M;i++) {
             parent[i] = i;
-            size[i] = 1;
         }
 
         int[][] map = new int[N][M];
@@ -57,7 +48,20 @@ public class Main {
         for (int i = 0; i < N; i++) {
             final String str = br.readLine();
             for (int j = 0; j < M; j++) {
-                map[i][j] = dir.get(str.charAt(j));
+                switch(str.charAt(j)) {
+                    case 'N':
+                        map[i][j] = 0;
+                        break;
+                    case 'W':
+                        map[i][j] = 1;
+                        break;
+                    case 'E':
+                        map[i][j] = 2;
+                        break;
+                    default:
+                        map[i][j] = 3;
+                    
+                }
             }
         }
 
@@ -70,11 +74,10 @@ public class Main {
             }
         }
         Set<Integer> result = new HashSet<>();
-        for(int i = 0;i<N*M;i++) {
+        for (int i = 0; i < N * M; i++) {
             result.add(find(parent[i]));
         }
 
-//        System.out.println(result);
         System.out.println(result.size());
 
 
