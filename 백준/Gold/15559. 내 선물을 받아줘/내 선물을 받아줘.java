@@ -79,44 +79,23 @@ public class Main {
         }
 
         //탐색 하면서 방문 처리 및, union
-        boolean[][] visited = new boolean[N][M];
-        Deque<Point> q = new ArrayDeque<>();
+//        boolean[][] visited = new boolean[N][M];
+//        Deque<Point> q = new ArrayDeque<>();
 
         for(int i= 0;i<N;i++) {
             for(int j= 0;j<M;j++) {
-                if(!visited[i][j]) {
-
-                    visited[i][j] = true;
-                    q.add(new Point(i, j));
-//                    System.out.println();
-                    while(!q.isEmpty()) {
-                        final Point now = q.poll();
-//                        System.out.println("now.y+\" \"now.x = " + now.y + " "+now.x);
-                        int d = dir.get(map[now.y][now.x]);
-                        int y = dy[d] + now.y;
-                        int x = dx[d] + now.x;
-//                        if(!visited[y][x]) {
-                        visited[y][x] = true;
-                        q.add(new Point(y, x));
-                        if (!union((now.y) * M + now.x, (y) * M + x)) {
-                            q = new ArrayDeque<>();
-                            break;
-                        }
-
-//                        }
-
-
-
-
-                    }
-
-
-
-
-                }
+                int d = dir.get(map[i][j]);
+                int y = dy[d] + i;
+                int x = dx[d] + j;
+                union((i) * M + j, (y) * M + x);
 
             }
+
+
+
+
         }
+
 //
 //        for(int i = 0;i<N*M;i++) {
 //            if(i%M==0)
