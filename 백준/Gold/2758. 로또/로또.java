@@ -8,28 +8,6 @@ public class Main {
     static long[][] dp;
 
     static int n,m;
-    static long search(int index, int start) {
-        if (start > m) {
-            return 0;
-        }
-
-        if (index == n) {
-            return 1;
-        }
-        // 이미 계산된 값이 있는 경우
-        if (dp[index][start] != -1) {
-            return dp[index][start];
-        }
-
-        long count = 0;
-        for (int i = start; i <= m; i++) {
-            count += search(index + 1, i * 2);
-        }
-        // 계산된 결과 저장
-        dp[index][start] = count;
-        return count;
-    }
-
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -41,15 +19,25 @@ public class Main {
              n = Integer.parseInt(st.nextToken());
              m = Integer.parseInt(st.nextToken());
             dp = new long[n+1][m+1];
-            for (int i = 0; i <= n; i++) {
-                Arrays.fill(dp[0], 1L);
-            }
 
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j <= m; j++) {
+            Arrays.fill(dp[0], 1L);
+
+            for(int i = 1;i<=n;i++) {
+                // dp[i][j] 까지
+
+                // 만약 현재로 뒤에 뿌리는 거 -> dp[i][j] -> dp[i+1][j*2 ~ m] 이건 너무 많음
+
+                // 따라서, 전에 껄 참조하기,
+
+                //전에 꺼는 그 전까지의 결과를 저장해둬야함
+
+                //dp[2][4] = 1일 때, 2일 때
+                //dp [2][5] = 1일 때, 2일 떄
+                for(int j= 1;j<=m;j++) {
                     dp[i][j] = dp[i - 1][j / 2] + dp[i][j - 1];
                 }
             }
+
             bw.write(dp[n][m] + "\n");
         }
         bw.flush();bw.close();
