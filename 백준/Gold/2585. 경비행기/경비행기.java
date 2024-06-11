@@ -1,4 +1,3 @@
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.*;
@@ -79,10 +78,11 @@ public class Main {
                 return;
             }
             for (int i = 1; i <= n + 1; i++) {
-                if (visited[i] > Math.max(node.minCost, map[node.now][i]) && node.depth <= k) {
-
-                    visited[i] = Math.max(node.minCost, map[node.now][i]);
-                    pq.add(new Node(i, node.depth + 1, visited[i]));
+                int newValue = Math.max(node.minCost, map[node.now][i]);
+                if (visited[i] > newValue && node.depth <= k) {
+                    visited[i] = newValue;
+                    pq.add(new Node(i, node.depth + 1, newValue));
+                    
                 }
             }
         }
