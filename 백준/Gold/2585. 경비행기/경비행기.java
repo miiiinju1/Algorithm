@@ -1,20 +1,11 @@
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.StringTokenizer;
 
 public class Main {
 
-    static class Edge {
-        int now, gas;
-        public Edge(int now, int gas) {
-            this.now = now;
-            this.gas = gas;
-        }
-    }
     static class Point {
         int y, x;
 
@@ -31,25 +22,22 @@ public class Main {
     static int n,k;
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-         n = Integer.parseInt(st.nextToken());
-         k = Integer.parseInt(st.nextToken());
+        Reader reader = new Reader();
+         n = reader.nextInt();
+         k = reader.nextInt();
 
         map = new int[n + 2][n + 2];
         Point[] points = new Point[n+2];
         points[0] = new Point(0, 0);
         points[n + 1] = new Point(10000, 10000);
         for (int i = 1; i <= n; i++) {
-            st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+            
+            int x = reader.nextInt();
+            int y = reader.nextInt();
 
             points[i] = new Point(y, x);
 
         }
-//        System.out.println("distance(new Point(0,0), new Point(1000,10)) = " + distance(new Point(2,1), new Point(37,43)));
-
         for (int i = 0; i <= n+1; i++) {
             for (int j = i + 1; j <= n+1; j++) {
                 //i랑j거리
@@ -57,15 +45,6 @@ public class Main {
                 map[j][i] = map[i][j];
             }
         }
-
-//        for(int i= 0;i<=n+1;i++) {
-//            for(int j= 0;j<=n+1;j++) {
-//                System.out.printf("%06d ",map[i][j]);
-//
-//            }
-//            System.out.println();
-//        }
-
 
         int lo = 0, hi = 15000;
 
@@ -87,7 +66,6 @@ public class Main {
 
     static class Phase {
         int now;
-
         public Phase(int now, int depth) {
             this.now = now;
             this.depth = depth;
@@ -98,8 +76,6 @@ public class Main {
     }
 
     private static boolean check(int mid) {
-//        System.out.println("mid = " + mid);
-
         boolean[] visited = new boolean[n + 2];
         Deque<Phase> q = new ArrayDeque<>();
         q.add(new Phase(0, 0));
@@ -123,14 +99,52 @@ public class Main {
                     }
                 }
             }
-
         }
-
         return false;
 
+    }
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
 
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
 
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') {
+                c = read();
+            }
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            return ret;
+        }
 
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) {
+                buffer[0] = -1;
+            }
+        }
 
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) {
+                fillBuffer();
+            }
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din != null) {
+                din.close();
+            }
+        }
     }
 }
