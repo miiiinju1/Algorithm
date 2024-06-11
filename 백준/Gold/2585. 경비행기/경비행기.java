@@ -1,8 +1,7 @@
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 public class Main {
 
@@ -20,6 +19,26 @@ public class Main {
         return (int)Math.ceil(Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2))/10);
     }
     static int n,k;
+
+    static class Node {
+        int now, depth, minCost;
+
+        @Override
+        public String toString() {
+            final StringBuffer sb = new StringBuffer("Node{");
+            sb.append("now=").append(now);
+            sb.append(", depth=").append(depth);
+            sb.append(", minCost=").append(minCost);
+            sb.append('}');
+            return sb.toString();
+        }
+
+        public Node(int now, int depth, int minCost) {
+            this.now = now;
+            this.depth = depth;
+            this.minCost = minCost;
+        }
+    }
     public static void main(String[] args) throws IOException {
 
         Reader reader = new Reader();
@@ -31,7 +50,7 @@ public class Main {
         points[0] = new Point(0, 0);
         points[n + 1] = new Point(10000, 10000);
         for (int i = 1; i <= n; i++) {
-            
+
             int x = reader.nextInt();
             int y = reader.nextInt();
 
@@ -46,21 +65,44 @@ public class Main {
             }
         }
 
-        int lo = 0, hi = 15000;
 
-        while(lo+1<hi) {
 
-            int mid = (hi - lo) / 2 + lo;
-
-            if(check(mid)) {
-                hi = mid;
+        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.minCost));
+        pq.add(new Node(0, 0, 0));
+        int[] visited = new int[n + 2];
+        Arrays.fill(visited, Integer.MAX_VALUE);
+        visited[0] = 0;
+        while(!pq.isEmpty()) {
+            final Node node = pq.poll();
+            if(node.now==n+1) {
+                System.out.println(node.minCost);
+                return;
             }
-            else {
-                lo = mid;
+            for (int i = 1; i <= n + 1; i++) {
+                if (visited[i] > Math.max(node.minCost, map[node.now][i]) && node.depth <= k) {
+
+                    visited[i] = Math.max(node.minCost, map[node.now][i]);
+                    pq.add(new Node(i, node.depth + 1, visited[i]));
+                }
             }
         }
-
-        System.out.println(hi);
+//
+//
+//        int lo = 0, hi = 15000;
+//
+//        while(lo+1<hi) {
+//
+//            int mid = (hi - lo) / 2 + lo;
+//
+//            if(check(mid)) {
+//                hi = mid;
+//            }
+//            else {
+//                lo = mid;
+//            }
+//        }
+//
+//        System.out.println(hi);
 
     }
 
@@ -88,8 +130,7 @@ public class Main {
                 return true;
             }
             for (int i = 1; i <= n+1; i++) {
-                if (map[now.now][i] <= mid &&
-                        !visited[i]) {
+                if (map[now.now][i] <= mid && !visited[i]) {
                     if(now.depth <= k) {
                         if(i == n+1) {
                             return true;
