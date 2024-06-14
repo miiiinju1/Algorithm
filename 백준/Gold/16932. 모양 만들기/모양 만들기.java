@@ -1,7 +1,6 @@
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
@@ -30,19 +29,17 @@ public class Main {
     }
     static int N,M;
     public static void main(String[] args) throws IOException {
+        Reader reader = new Reader();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-         N = Integer.parseInt(st.nextToken());
-         M = Integer.parseInt(st.nextToken());
+         N = reader.nextInt();
+         M = reader.nextInt();
 
         int[][] map = new int[N][M];
 
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
+                map[i][j] = reader.nextInt();
             }
         }
 
@@ -57,7 +54,7 @@ public class Main {
 
                 int size = 0;
                 List<Point> temp = new ArrayList<>();
-                if (!visited[i][j] && map[i][j] == 1) {
+                if (map[i][j] == 1 && !visited[i][j]) {
                     Deque<Point> q = new ArrayDeque<>();
                     q.add(new Point(i, j));
                     visited[i][j] = true;
@@ -84,7 +81,6 @@ public class Main {
                     max = Math.max(max, size);
                     ++num;
                 }
-
             }
         }
 
@@ -116,6 +112,50 @@ public class Main {
 
 
 
+    }
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') {
+                c = read();
+            }
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            return ret;
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) {
+                buffer[0] = -1;
+            }
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) {
+                fillBuffer();
+            }
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din != null) {
+                din.close();
+            }
+        }
     }
 
 }
