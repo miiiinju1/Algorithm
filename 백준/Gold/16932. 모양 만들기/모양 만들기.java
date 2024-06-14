@@ -42,18 +42,16 @@ public class Main {
                 map[i][j] = reader.nextInt();
             }
         }
-
-
-        Node[][] result = new Node[N][M];
         int num = 1;
 
         int max = 0;
+        int[][] result = new int[N][M];
+        Map<Integer, Integer> sizeCount = new HashMap<>();
         boolean[][] visited = new boolean[N][M];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
 
                 int size = 0;
-                List<Point> temp = new ArrayList<>();
                 if (map[i][j] == 1 && !visited[i][j]) {
                     Deque<Point> q = new ArrayDeque<>();
                     q.add(new Point(i, j));
@@ -61,9 +59,8 @@ public class Main {
 
                     while (!q.isEmpty()) {
                         final Point now = q.poll();
+                        result[now.y][now.x] = num;
                         ++size;
-
-                        temp.add(now);
 
                         for (int d = 0; d < 4; d++) {
                             int y = dy[d] + now.y;
@@ -74,30 +71,26 @@ public class Main {
                             }
                         }
                     }
-
-                    for (Point point : temp) {
-                        result[point.y][point.x] = new Node(num, size);
-                    }
+                    sizeCount.put(num, size);
                     max = Math.max(max, size);
                     ++num;
                 }
             }
         }
-
-
+//
+//        System.out.println("sizeCount = " + sizeCount);
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if(result[i][j]==null) {
+                if (result[i][j] == 0) {
 
                     Map<Integer, Integer> count = new HashMap<>();
                     for (int d = 0; d < 4; d++) {
                         int y = dy[d] + i;
                         int x = dx[d] + j;
 
-                        if(isValid(y,x) && result[y][x] != null) {
-                            count.put(result[y][x].num, result[y][x].size);
+                        if (isValid(y, x) && result[y][x] != 0) {
+                            count.put(result[y][x], sizeCount.get(result[y][x]));
                         }
-
                     }
                     final int sum = count.values().stream()
                             .mapToInt(Integer::intValue)
