@@ -55,23 +55,37 @@ public class Main {
         start = reader.nextInt();
         end = reader.nextInt();
 
-        Deque<Node> pq = new ArrayDeque<>();//(o1, o2) -> Integer.compare(o2.value, o1.value));
+//        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o2.value, o1.value));
         visited = new int[n + 1];
+        Arrays.fill(visited, Integer.MIN_VALUE);
         visited[start] = 0;
 
-        pq.add(new Node(start, 0, -1));
-        while(!pq.isEmpty()) {
-            final Node now = pq.poll();
-            if (now.value < visited[now.now]) continue;
 
-            for (Edge edge : map.get(now.now)) {
-                if(visited[edge.to] < now.value + edge.cost) {
-                    visited[edge.to] = now.value + edge.cost;
-                    pq.add(new Node(edge.to, now.value + edge.cost, edge.num));
+        Deque<Integer> pq = topologicalSort();
+
+        while (!pq.isEmpty()) {
+            int now = pq.poll();
+            if (visited[now] != Integer.MIN_VALUE) {
+                for (Edge edge : map.get(now)) {
+                    if (visited[edge.to] < visited[now] + edge.cost) {
+                        visited[edge.to] = visited[now] + edge.cost;
+                    }
                 }
             }
-
         }
+//        pq.add(new Node(start, 0, -1));
+//        while(!pq.isEmpty()) {
+//            final Node now = pq.poll();
+//            if (now.value < visited[now.now]) continue;
+//
+//            for (Edge edge : map.get(now.now)) {
+//                if(visited[edge.to] < now.value + edge.cost) {
+//                    visited[edge.to] = now.value + edge.cost;
+//                    pq.add(new Node(edge.to, now.value + edge.cost, edge.num));
+//                }
+//            }
+//
+//        }
 
 
         boolean[] reverseVisited = new boolean[n + 1];
@@ -97,7 +111,26 @@ public class Main {
         System.out.println(count);
 
     }
+    public static Deque<Integer> topologicalSort() {
+        Deque<Integer> order = new ArrayDeque<>();
+        boolean[] visited = new boolean[n + 1];
+        for (int i = 1; i <= n; i++) {
+            if (!visited[i]) {
+                dfs(i, visited, order);
+            }
+        }
+        return order;
+    }
 
+    public static void dfs(int node, boolean[] visited, Deque<Integer> order) {
+        visited[node] = true;
+        for (Edge edge : map.get(node)) {
+            if (!visited[edge.to]) {
+                dfs(edge.to, visited, order);
+            }
+        }
+        order.push(node);
+    }
     static class Reader {
         final private int BUFFER_SIZE = 1 << 16;
         private DataInputStream din;
