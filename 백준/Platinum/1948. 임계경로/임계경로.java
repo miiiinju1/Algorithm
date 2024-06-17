@@ -3,108 +3,117 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
+
     static class Edge {
-        int to, cost;
-        public Edge(int to, int cost) {
+        int to,cost;
+        int num;
+
+        public Edge(int to, int cost, int num) {
             this.to = to;
             this.cost = cost;
+            this.num = num;
         }
     }
 
-    static int n, m;
-    static List<List<Edge>> graph = new ArrayList<>();
-    static int[] dist;
-    static List<Integer>[] reverseGraph;
-    static int start, end;
-    static boolean[] visited;
+    static class Node {
+        int now, value;
 
+        int num;
+//        public Node(int now, int value) {
+//            this.now = now;
+//            this.value = value;
+//        }
+
+        public Node(int now, int value, int num) {
+            this.now = now;
+            this.value = value;
+            this.num = num;
+        }
+    }
+
+    static int[] prev;
+    static int[] visited;
+    static int start, end,n,m;
+    static Set<Integer> result;
+
+    static Map<Integer, List<Edge>> map = new HashMap<>();
+    static Map<Integer, List<Edge>> reverseMap = new HashMap<>();
     public static void main(String[] args) throws IOException {
         Reader reader = new Reader();
-        n = reader.nextInt();
-        m = reader.nextInt();
-        
-        dist = new int[n + 1];
-        visited = new boolean[n + 1];
-        reverseGraph = new List[n + 1];
-        
-        for (int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<>());
-            reverseGraph[i] = new ArrayList<>();
-        }
+         n = reader.nextInt();
+         m = reader.nextInt();
 
-        for (int i = 0; i < m; i++) {
+        for(int i= 0;i<=n;i++) {
+            map.put(i, new ArrayList<>());
+            reverseMap.put(i, new ArrayList<>());
+
+        }
+        for(int i= 0;i<m;i++) {
             int a = reader.nextInt();
             int b = reader.nextInt();
             int c = reader.nextInt();
-            graph.get(a).add(new Edge(b, c));
-            reverseGraph[b].add(a);
+
+            map.get(a).add(new Edge(b, c, i));
+            reverseMap.get(b).add(new Edge(a, c, i));
         }
 
         start = reader.nextInt();
         end = reader.nextInt();
 
-        Arrays.fill(dist, Integer.MIN_VALUE);
-        dist[start] = 0;
+        Deque<Node> pq = new ArrayDeque<>();//(o1, o2) -> Integer.compare(o2.value, o1.value));
+        visited = new int[n + 1];
+        visited[start] = 0;
 
-        dijkstra();
-        int maxTime = dist[end];
-        int criticalPathCount = countCriticalPaths();
+        result = new HashSet<>();
 
-        System.out.println(maxTime);
-        System.out.println(criticalPathCount);
-    }
+        pq.add(new Node(start, 0, -1));
+        while(!pq.isEmpty()) {
+            final Node now = pq.poll();
+            if (now.value < visited[now.now]) continue;
 
-    static void dijkstra() {
-        PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> b.cost - a.cost);
-        pq.offer(new Edge(start, 0));
-
-        while (!pq.isEmpty()) {
-            Edge current = pq.poll();
-            int currNode = current.to;
-            int currDist = current.cost;
-
-            if (currDist < dist[currNode]) continue;
-
-            for (Edge edge : graph.get(currNode)) {
-                int nextNode = edge.to;
-                int newDist = currDist + edge.cost;
-
-                if (newDist > dist[nextNode]) {
-                    dist[nextNode] = newDist;
-                    pq.offer(new Edge(nextNode, newDist));
+            for (Edge edge : map.get(now.now)) {
+                if(visited[edge.to] < now.value + edge.cost) {
+                    visited[edge.to] = now.value + edge.cost;
+                    pq.add(new Node(edge.to, now.value + edge.cost, edge.num));
                 }
             }
-        }
-    }
 
-    static int countCriticalPaths() {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(end);
-        visited[end] = true;
+        }
+
+        int max = visited[end];
+
+        int[] reverseVisited = new int[n + 1];
+        Deque<Node> q = new ArrayDeque<>();//(o1, o2) -> Integer.compare(o2.value, o1.value));
+        reverseVisited[end] = 0;;//0;
+
+        q.add(new Node(end, 0, -1));
+
         int count = 0;
+        while(!q.isEmpty()) {
+            final Node now = q.poll();
+//            System.out.println("now.now = " + now.now);
+            if (now.value < reverseVisited[now.now]) continue;
 
-        while (!queue.isEmpty()) {
-            int curr = queue.poll();
-            for (int prev : reverseGraph[curr]) {
-                if (dist[prev] + findEdgeCost(prev, curr) == dist[curr]) {
+
+            for (Edge edge : reverseMap.get(now.now)) {
+                int newValue = now.value + edge.cost;
+                if (newValue + visited[edge.to] == max) {
                     count++;
-                    if (!visited[prev]) {
-                        visited[prev] = true;
-                        queue.offer(prev);
-                    }
                 }
-            }
-        }
-        return count;
-    }
+                if(reverseVisited[edge.to] < now.value + edge.cost) {
+                    reverseVisited[edge.to] = now.value + edge.cost;
+                    q.add(new Node(edge.to, now.value + edge.cost, edge.num));
+                }
+//                if (!reverseVisited[edge.to]){// < newValue) {
+//                    q.add(new Node(edge.to, newValue, -1));
+//                    reverseVisited[edge.to] = true;
+//                }
 
-    static int findEdgeCost(int from, int to) {
-        for (Edge edge : graph.get(from)) {
-            if (edge.to == to) {
-                return edge.cost;
             }
         }
-        return 0;
+        System.out.println(visited[end]);
+        System.out.println(count);
+
     }
 
     static class Reader {
@@ -152,3 +161,33 @@ public class Main {
         }
     }
 }
+
+//5
+//7
+//1 2 1
+//1 3 3
+//2 3 2
+//2 4 1
+//2 5 3
+//3 5 1
+//4 5 1
+//1 5
+
+
+//5
+//7
+//1 2 1
+//1 3 3
+//2 3 2
+//2 4 1
+//4 5 1
+//3 5 1
+//2 5 3
+//1 5
+
+//4 4
+//1 2 1
+//2 3 1
+//3 4 1
+//2 4 2
+//1 4
