@@ -1,3 +1,4 @@
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.*;
@@ -19,10 +20,6 @@ public class Main {
         int now, value;
 
         int num;
-//        public Node(int now, int value) {
-//            this.now = now;
-//            this.value = value;
-//        }
 
         public Node(int now, int value, int num) {
             this.now = now;
@@ -31,10 +28,8 @@ public class Main {
         }
     }
 
-    static int[] prev;
     static int[] visited;
     static int start, end,n,m;
-    static Set<Integer> result;
 
     static Map<Integer, List<Edge>> map = new HashMap<>();
     static Map<Integer, List<Edge>> reverseMap = new HashMap<>();
@@ -64,8 +59,6 @@ public class Main {
         visited = new int[n + 1];
         visited[start] = 0;
 
-        result = new HashSet<>();
-
         pq.add(new Node(start, 0, -1));
         while(!pq.isEmpty()) {
             final Node now = pq.poll();
@@ -80,37 +73,26 @@ public class Main {
 
         }
 
-        int max = visited[end];
 
-        int[] reverseVisited = new int[n + 1];
-        Deque<Node> q = new ArrayDeque<>();//(o1, o2) -> Integer.compare(o2.value, o1.value));
-        reverseVisited[end] = 0;;//0;
-
-        q.add(new Node(end, 0, -1));
-
+        boolean[] reverseVisited = new boolean[n + 1];
+        Deque<Integer> q = new ArrayDeque<>();
+        q.add(end);
+        reverseVisited[end] = true;
         int count = 0;
-        while(!q.isEmpty()) {
-            final Node now = q.poll();
-//            System.out.println("now.now = " + now.now);
-            if (now.value < reverseVisited[now.now]) continue;
 
-
-            for (Edge edge : reverseMap.get(now.now)) {
-                int newValue = now.value + edge.cost;
-                if (newValue + visited[edge.to] == max) {
+        while (!q.isEmpty()) {
+            int now = q.poll();
+            for (Edge edge : reverseMap.get(now)) {
+                if (visited[edge.to] + edge.cost == visited[now]) {
                     count++;
+                    if (!reverseVisited[edge.to]) {
+                        reverseVisited[edge.to] = true;
+                        q.add(edge.to);
+                    }
                 }
-                if(reverseVisited[edge.to] < now.value + edge.cost) {
-                    reverseVisited[edge.to] = now.value + edge.cost;
-                    q.add(new Node(edge.to, now.value + edge.cost, edge.num));
-                }
-//                if (!reverseVisited[edge.to]){// < newValue) {
-//                    q.add(new Node(edge.to, newValue, -1));
-//                    reverseVisited[edge.to] = true;
-//                }
-
             }
         }
+
         System.out.println(visited[end]);
         System.out.println(count);
 
