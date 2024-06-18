@@ -1,6 +1,7 @@
 
 import java.io.*;
 import java.util.*;
+
 public class Main {
     static class Edge {
         int to, cost;
@@ -32,10 +33,10 @@ public class Main {
     static long[] dp;
     static int n;
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Reader reader = new Reader();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         while(true) {
-             n = Integer.parseInt(br.readLine());
+             n = reader.nextInt();
 
             if (n == 0) {
                 break;
@@ -46,10 +47,9 @@ public class Main {
             }
 
             for(int i= 1;i<n;i++) {
-                StringTokenizer st = new StringTokenizer(br.readLine());
-                int a = Integer.parseInt(st.nextToken());
-                int b = Integer.parseInt(st.nextToken());
-                int w = Integer.parseInt(st.nextToken());
+                int a = reader.nextInt();
+                int b = reader.nextInt();
+                int w = reader.nextInt();
                 map.get(a).add(new Edge(b, w));
                 map.get(b).add(new Edge(a, w));
             }
@@ -98,16 +98,9 @@ public class Main {
         return min;
     }
     static long check(int from, int to, int edgeCost) {
-        long sum = dp[from];
-
-        long temp = sum ;
-
-        temp += ((long) n - ((cCount[to]) * 2)) * edgeCost;
-        dp[to] = temp;
-
-
+        long temp = dp[from];
+        dp[to] = temp + (n - (cCount[to]) * 2L) * edgeCost;
         return temp;
-
     }
 
     static int childCount(int now) {
@@ -129,7 +122,6 @@ public class Main {
     static void bfs() {
         Arrays.fill(dist, Integer.MAX_VALUE);
 
-
         Deque<Node> pq = new ArrayDeque<>();
         dist[0] = 0;
         pq.add(new Node(0, 0));
@@ -145,6 +137,50 @@ public class Main {
             }
         }
 
+    }
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') {
+                c = read();
+            }
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            return ret;
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) {
+                buffer[0] = -1;
+            }
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) {
+                fillBuffer();
+            }
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din != null) {
+                din.close();
+            }
+        }
     }
 
 }
