@@ -16,8 +16,7 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
 
         int[][] dp = new int[2][N + 1];
-
-
+        
         dp[0][a] = 1;
         dp[1][0] = 1;
         if(b<=N)
@@ -30,21 +29,15 @@ public class Main {
             dp[0][i] = (dp[0][i - 1]+dp[0][i])%MOD;
 
             if (dp[0][i] > 0) {
-                dp[1][i] = (dp[0][i]+dp[1][i])%MOD;
-                if(i+a <=N) {
-                    dp[0][i + a] = (dp[0][i] + dp[0][i+a])%MOD;
+                dp[1][i] = (dp[0][i] + dp[1][i]) % MOD;
+                if (i + a <= N) {
+                    dp[0][i + a] = (dp[0][i] + dp[0][i + a]) % MOD;
                 }
-                if(i+b<=N) {
-                    dp[0][i + b] = (dp[0][i + b] - dp[0][i]) % MOD;
-                    if(dp[0][i+b]<0) {
-                        dp[0][i+b]+=MOD;
-                    }
+                if (i + b <= N) {
+                    dp[0][i + b] = (dp[0][i + b] - dp[0][i] + MOD) % MOD;
                 }
-                if(i+d<=N) {
-                    dp[1][i + d] = (dp[1][i + d] - dp[0][i]);
-                    if(dp[1][i + d]<0) {
-                        dp[1][i + d]+=MOD;
-                    }
+                if (i + d <= N) {
+                    dp[1][i + d] = (dp[1][i + d] - dp[0][i] + MOD) % MOD;
                 }
             }
 //            for(int j= 0;j<=N;j++) {
@@ -53,8 +46,6 @@ public class Main {
 //            System.out.println();
 
         }
-
-
         System.out.println(dp[1][N]);
 
     }
