@@ -56,7 +56,6 @@ public class Main {
 
             }
         }
-
         PriorityQueue<Phase> pq = new PriorityQueue<>();
         int[][] visited = new int[H][W];
         for(int i= 0;i<H;i++) {
