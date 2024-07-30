@@ -6,9 +6,10 @@ import java.util.*;
 
 public class Main {
     static class Edge {
-        int to, cost;
+        int to;
+        long cost;
 
-        public Edge(int to, int cost) {
+        public Edge(int to, long cost) {
             this.to = to;
             this.cost = cost;
         }
@@ -36,16 +37,16 @@ public class Main {
 
             map.get(a).add(new Edge(b, d));
             map.get(b).add(new Edge(a, d));
-            edgeSum+=d;
-
+            edgeSum += d;
         }
 
-        int[] dist = new int[N + 1];
+        long[] dist = new long[N + 1];
 
-        Arrays.fill(dist, Integer.MAX_VALUE);
+        Arrays.fill(dist, Long.MAX_VALUE);
 
-        PriorityQueue<Edge> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.cost));
+        PriorityQueue<Edge> pq = new PriorityQueue<>(Comparator.comparingLong(o -> o.cost));
         pq.add(new Edge(1, 0));
+
         dist[1] = 0;
         while(!pq.isEmpty()) {
             Edge poll = pq.poll();
@@ -64,18 +65,17 @@ public class Main {
         for(int i =1;i<=N;i++) {
             list.add(new Node(i, dist[i]));
         }
-        Collections.sort(list, Comparator.comparingInt(o -> o.cost));
+        Collections.sort(list, Comparator.comparingLong(o -> o.cost));
 
         Set<Integer> connected = new HashSet<>();
 
-
-        int before = 0;
+        long before = 0;
         long sum = Long.MAX_VALUE;
         for (Node node : list) {
 
             if(before!=node.cost) {
                 //calculate
-                sum = Math.min(sum, (long) C * before + edgeSum);
+                sum = Math.min(sum, C * before + edgeSum);
                 before = node.cost;
             }
             connected.add(node.index);
@@ -87,14 +87,15 @@ public class Main {
 
 
         }
-        sum = Math.min(sum, (long) C * before + edgeSum);
+        sum = Math.min(sum, C * before + edgeSum);
         System.out.println(sum);
 
     }
     static class Node {
-        int index, cost;
+        int index;
+        long cost;
 
-        public Node(int index, int cost) {
+        public Node(int index, long cost) {
             this.index = index;
             this.cost = cost;
         }
