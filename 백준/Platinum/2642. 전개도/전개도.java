@@ -115,7 +115,9 @@ public class Main {
                 }
             }
         }
-        test(0, new int[6], new boolean[7]);
+        int[] ary = {1,2,3,4,5,6};
+        calculate(0, ary, new boolean[7]);
+//        test(0, new int[6], new boolean[7]);
 
 
 
