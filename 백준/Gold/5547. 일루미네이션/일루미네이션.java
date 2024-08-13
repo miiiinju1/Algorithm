@@ -126,21 +126,22 @@ public class Main {
 
       }
     }
-    visited = new boolean[extendH+2][extendW+2];
-
-    int result = 0;
-    for(int i =0;i<extendH+2;i++) {
-      for(int j= 0;j<extendW+2;j++) {
-        if(check[i][j]==1 && !visited[i][j]) {
-//          visited[i][j] = true;
-          count = -1;
-          dfs(i, j, 0, -1, -1);
-          result += count/2;
-        }
-      }
-    }
-
-    System.out.println(result);
+    System.out.println(m/2);
+//    visited = new boolean[extendH+2][extendW+2];
+//
+//    int result = 0;
+//    for(int i =0;i<extendH+2;i++) {
+//      for(int j= 0;j<extendW+2;j++) {
+//        if(check[i][j]==1 && !visited[i][j]) {
+////          visited[i][j] = true;
+//          count = -1;
+//          dfs(i, j, 0, -1, -1);
+//          result += count/2;
+//        }
+//      }
+//    }
+//
+//    System.out.println(result);
 
   }
   static boolean[][] visited;
