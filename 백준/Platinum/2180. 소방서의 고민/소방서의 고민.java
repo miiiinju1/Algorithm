@@ -21,11 +21,11 @@ public class Main {
         public int compareTo(Fire o) {
             if (this.a == 0 && o.a == 0) {
                 return Integer.compare(this.b, o.b);
-            } else if (this.a == 0) {
-                return Integer.MAX_VALUE;
-            } else if (o.a == 0) {
-                return Integer.MIN_VALUE+1;
             }
+            if (this.a == 0 || o.a == 0) {
+                return Integer.compare(o.a, this.a);
+            }
+
 
             int a = this.b * o.a;
             int b = o.b * this.a;
@@ -53,10 +53,11 @@ public class Main {
         long time = 0;
         for (Fire fire : fires) {
 //            System.out.println("fire.a+\" \"+fire.b = " + fire.a + " " + fire.b);
-            long cost = ((time * fire.a % MOD) % MOD + fire.b % MOD) % MOD;
+//            long cost = ((time * fire.a % MOD) % MOD + fire.b % MOD) % MOD;
+            long cost = time * fire.a + fire.b;
 //            long cost = ((time * fire.a) % MOD + fire.b % MOD) % MOD;
 //            System.out.println("cost = " + cost);
-            time = (time + cost) % MOD;
+            time = (time + cost%MOD) % MOD;
 //            System.out.println("sum = " + sum);
         }
         System.out.println(time);
