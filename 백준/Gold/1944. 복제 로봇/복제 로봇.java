@@ -101,9 +101,6 @@ public class Main {
                             if (charMap[now.y][now.x] == 'S' || charMap[now.y][now.x] == 'K') {
                                 int target = nodeMap[now.y][now.x];
                                 int cost = visited[now.y][now.x];
-//                                map.get(from).add(new Edge(target, cost));
-//                                map.get(target).add(new Edge(from, cost));
-//                                break;
                                 list.add(new UFEdge(from, target, cost));
                             }
                         }
@@ -200,10 +197,3 @@ public class Main {
     static int[] dx = {0, -1, 0, 1};
 
 }
-//6 3
-//111111
-//1S1011
-//100011
-//10K011
-//10K0K1
-//111111`
