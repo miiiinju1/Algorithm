@@ -12,21 +12,19 @@ public class Main {
     static class Candidate implements Comparable<Candidate> {
         int point;
         int winner;
-        int loser;
         int cost;
 
         public Candidate(int point, int a, int b, int cost) {
             this.point = point;
             this.winner = Math.min(a, b);
-            this.loser = Math.max(a, b);
             this.cost = cost;
         }
 
         @Override
         public int compareTo(Candidate o) {
-            if (this.winner == o.winner) {
-                return Integer.compare(this.cost, o.cost);
-            }
+//            if (this.winner == o.winner) {
+//                return Integer.compare(this.cost, o.cost);
+//            }
             return Integer.compare(o.winner, this.winner);
         }
     }
@@ -36,19 +34,14 @@ public class Main {
 
         var st = new StringTokenizer(br.readLine());
 
-        int[] map = new int[n];
+        List<Integer> list = new ArrayList<>();
         for(int i= 0;i<n;i++) {
-            map[i] = Integer.parseInt(st.nextToken());
+            list.add(Integer.parseInt(st.nextToken()));
         }
 
         PriorityQueue<Candidate> pq;
-        List<Integer> list = new ArrayList<>();
 
-        for(int i = 0;i<n;i++) {
-            list.add(map[i]);
-        }
-
-        long sum = 0L;
+        int sum = 0;
         while (list.size() > 1) {
             pq = new PriorityQueue<>();
             for (int j = 1; j < list.size(); j++) {
