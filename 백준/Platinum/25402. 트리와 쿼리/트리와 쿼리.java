@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -6,8 +7,10 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -72,10 +75,6 @@ public class Main {
         visited[1] = true;
 
         dfs(1, 0);
-//        for(int i= 0;i<=N;i++) {
-//            System.out.print(treeParent[i]+" ");
-//        }
-//        System.out.println();
 
 
         int Q = Integer.parseInt(br.readLine());
@@ -85,42 +84,36 @@ public class Main {
 
             int k = Integer.parseInt(st.nextToken());
 
-            List<Integer> input = new ArrayList<>();
+            Set<Integer> input = new HashSet<>();
 
             for (int j = 0; j < k; j++) {
                 input.add(Integer.parseInt(st.nextToken()));
             }
 
             // 시작
+            for (Integer a : input) {
+                int parA = treeParent[a];
 
-            for (int x = 0; x < input.size(); x++) {
-
-                int a = input.get(x);
-                for (int y = x + 1; y < input.size(); y++) {
-                    int b = input.get(y);
-                    if (treeParent[b] == a || treeParent[a] == b) {
-                        union(a, b);
-                    }
+                if(input.contains(parA)) {
+                    union(parA, a);
                 }
             }
 
-            Map<Integer, Integer> count = new HashMap<>();
-            for (Integer num : input) {
+            Set<Integer> visit = new HashSet<>();
+            int sum = 0;
 
+            for (Integer num : input) {
                 int numParent = find(num);
                 int numSize = size[numParent];
-
                 if(numSize==1) continue;
+                int size = numSize * (numSize - 1) / 2;
 
-                int size = numSize*(numSize-1)/2;
-                count.putIfAbsent(numParent, size);
-
+                if(!visit.contains(numParent)) {
+                    visit.add(numParent);
+                    sum += size;
+                }
             }
 
-            int sum = 0;
-            for (Integer value : count.values()) {
-                sum += value;
-            }
 
             bw.write(sum + "\n");
             for (Integer index : input) {
@@ -131,7 +124,7 @@ public class Main {
         }
             bw.flush();bw.close();
     }
-    static         boolean[] visited ;
+    static boolean[] visited ;
 
     static void dfs(int now, int parent) {
         treeParent[now] = parent;
