@@ -15,5 +15,14 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 ## Two Pointers
 |  |
 | ------- |
+| [0005-longest-palindromic-substring](https://github.com/miiiinju1/Algorithm/tree/master/0005-longest-palindromic-substring) |
 | [0027-remove-element](https://github.com/miiiinju1/Algorithm/tree/master/0027-remove-element) |
+## String
+|  |
+| ------- |
+| [0005-longest-palindromic-substring](https://github.com/miiiinju1/Algorithm/tree/master/0005-longest-palindromic-substring) |
+## Dynamic Programming
+|  |
+| ------- |
+| [0005-longest-palindromic-substring](https://github.com/miiiinju1/Algorithm/tree/master/0005-longest-palindromic-substring) |
 <!---LeetCode Topics End-->
