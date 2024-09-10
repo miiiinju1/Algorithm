@@ -6,6 +6,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -77,7 +78,8 @@ public class Main {
 
         // N+1, M, 가로 벽
 
-        ArrayDeque<Point> q = new ArrayDeque<>();
+        PriorityQueue<Point> q = new PriorityQueue<>(
+            (o1, o2) -> Integer.compare(o1.value, o2.value));
         // 첫 번째는 외부랑 통함
         int i = 0;
         st = new StringTokenizer(br.readLine());
@@ -148,7 +150,6 @@ public class Main {
 //
 //        }
 
-        // BFS
         while(!q.isEmpty()) {
             Point now = q.poll();
             if(now.value > capacity[now.y][now.x]) continue;
@@ -156,20 +157,12 @@ public class Main {
             for (Edge edge : tank.edges) {
                 int min = -1;
 
-                // 현재 >= 다음
-                if(now.value >= capacity[edge.y][edge.x]) {
-                    min = capacity[edge.y][edge.x];
-                }
-                // 현대 < 다음
-                else {
+                // 현재 < 다음
+                if (now.value < capacity[edge.y][edge.x]){
                     // 현재보다 구멍이 위에 있으면
-                    if (now.value <= edge.hole) {
-                        min = edge.hole;
-                    }
-                    // 아니면
-                    else {
-                        min = now.value;
-                    }
+                    min = Math.max(now.value, edge.hole);
+                } else {
+                    continue;
                 }
                 if (capacity[edge.y][edge.x] > min) {
                     capacity[edge.y][edge.x] = min;
@@ -188,7 +181,7 @@ public class Main {
 //            System.out.println(Arrays.toString(ints));
 //
 //        }
-
+//
         System.out.println(sum);
 
 //        System.out.println(q);
