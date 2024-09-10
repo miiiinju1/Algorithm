@@ -10,14 +10,6 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int[] dy = {-1, 0, 1, 0};
-    static int[] dx = {0, -1, 0, 1};
-
-    static final int UP = 0;
-    static final int LEFT = 0;
-    static final int DOWN = 0;
-    static final int RIGHT = 0;
-
     static class Point {
         int y,x;
         int value;
@@ -60,6 +52,7 @@ public class Main {
     }
     static Node[][] tanks;
     static int N,M, H;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         var st = new StringTokenizer(br.readLine());
@@ -89,31 +82,31 @@ public class Main {
         int i = 0;
         st = new StringTokenizer(br.readLine());
         for(int j= 0;j<M;j++) {
-            int input = Integer.parseInt(st.nextToken());
-            if (input == -1) continue;
-            q.add(new Point(i, j, input));
-            capacity[i][j] = input;
+            int hole = Integer.parseInt(st.nextToken());
+            if (hole == -1) continue;
+            q.add(new Point(i, j, hole));
+            capacity[i][j] = Math.min(capacity[i][j], hole);
         }
         for (i = 1; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
-                int input = Integer.parseInt(st.nextToken());
-                if(input == -1) continue;
+                int hole = Integer.parseInt(st.nextToken());
+                if(hole == -1) continue;
                 // y-1이랑 y간에 이어주는 역할
                 Node upper = tanks[i - 1][j];
                 Node lower = tanks[i][j];
-                upper.edges.add(new Edge(i, j, input));
-                lower.edges.add(new Edge(i-1, j, input));
+                upper.edges.add(new Edge(i, j, hole));
+                lower.edges.add(new Edge(i - 1, j, hole));
 
             }
         }
         // 마지막도 외부랑 통함
         st = new StringTokenizer(br.readLine());
         for(int j= 0;j<M;j++) {
-            int input = Integer.parseInt(st.nextToken());
-            if (input == -1) continue;
-            q.add(new Point(N - 1, j, input));
-            capacity[N - 1][j] = input;
+            int hole = Integer.parseInt(st.nextToken());
+            if (hole == -1) continue;
+            q.add(new Point(N - 1, j, hole));
+            capacity[N - 1][j] = Math.min(capacity[N - 1][j], hole);
 
         }
 ////////////////////////////////////////
@@ -123,40 +116,61 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             // 첫 번째는 외부랑 통함
             int j = 0;
-            int input = Integer.parseInt(st.nextToken());
-            if (input != -1) {
-                q.add(new Point(i, j, input));
-                capacity[i][j] = input;
+            int hole = Integer.parseInt(st.nextToken());
+            if (hole != -1) {
+                q.add(new Point(i, j, hole));
+                capacity[i][j] = Math.min(capacity[i][j], hole);
 
             }
 
             for (j = 1; j < M; j++) {
-                 input = Integer.parseInt(st.nextToken());
+                 hole = Integer.parseInt(st.nextToken());
 
-                if (input == -1) continue;
+                if (hole == -1) continue;
 
                 Node left = tanks[i][j-1];
                 Node right = tanks[i][j];
-                left.edges.add(new Edge(i, j, input));
-                right.edges.add(new Edge(i, j-1, input));
+                left.edges.add(new Edge(i, j, hole));
+                right.edges.add(new Edge(i, j-1, hole));
 
             }
 
             // 마지막도 외부랑 통함
-            input = Integer.parseInt(st.nextToken());
-            if (input != -1) {
-                q.add(new Point(i, M - 1, input));
-                capacity[i][M - 1] = input;
+            hole = Integer.parseInt(st.nextToken());
+            if (hole != -1) {
+                q.add(new Point(i, M - 1, hole));
+                capacity[i][M - 1] = Math.min(capacity[i][M - 1], hole);
             }
         }
 
+//        for (int[] ints : capacity) {
+//            System.out.println(Arrays.toString(ints));
+//
+//        }
+
+        // BFS
         while(!q.isEmpty()) {
             Point now = q.poll();
-
+            if(now.value > capacity[now.y][now.x]) continue;
             Node tank = tanks[now.y][now.x];
-
             for (Edge edge : tank.edges) {
-                int min = Math.max(edge.hole, now.value);
+                int min = -1;
+
+                // 현재 >= 다음
+                if(now.value >= capacity[edge.y][edge.x]) {
+                    min = capacity[edge.y][edge.x];
+                }
+                // 현대 < 다음
+                else {
+                    // 현재보다 구멍이 위에 있으면
+                    if (now.value <= edge.hole) {
+                        min = edge.hole;
+                    }
+                    // 아니면
+                    else {
+                        min = now.value;
+                    }
+                }
                 if (capacity[edge.y][edge.x] > min) {
                     capacity[edge.y][edge.x] = min;
                     q.add(new Point(edge.y, edge.x, min));
@@ -170,6 +184,11 @@ public class Main {
                 sum += anInt;
             }
         }
+//        for (int[] ints : capacity) {
+//            System.out.println(Arrays.toString(ints));
+//
+//        }
+
         System.out.println(sum);
 
 //        System.out.println(q);
