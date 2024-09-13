@@ -1,5 +1,7 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -33,31 +35,28 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Reader reader = new Reader();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int T = Integer.parseInt(br.readLine());
+        int T = reader.nextInt();
 
         for (int tc = 0; tc < T; tc++) {
             map = new HashMap<>();
-            var st = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(st.nextToken());
-            int m = Integer.parseInt(st.nextToken());
-            int t = Integer.parseInt(st.nextToken());
+            int n = reader.nextInt();
+            int m = reader.nextInt();
+            int t = reader.nextInt();
 
             for(int i = 1;i<=n;i++) {
                 map.put(i, new PriorityQueue<>());
             }
 
-            st = new StringTokenizer(br.readLine());
-            int s = Integer.parseInt(st.nextToken());
-            int g = Integer.parseInt(st.nextToken());
-            int h = Integer.parseInt(st.nextToken());
+            int s = reader.nextInt();
+            int g = reader.nextInt();
+            int h = reader.nextInt();
 
             for (int i = 0; i < m; i++) {
-                st = new StringTokenizer(br.readLine());
-                int a = Integer.parseInt(st.nextToken());
-                int b = Integer.parseInt(st.nextToken());
-                int d = Integer.parseInt(st.nextToken());
+                int a = reader.nextInt();
+                int b = reader.nextInt();
+                int d = reader.nextInt();
 
                 map.get(a).add(new Edge(b, d));
                 map.get(b).add(new Edge(a, d));
@@ -65,7 +64,7 @@ public class Main {
 
             List<Integer> targets = new ArrayList<>();
             for(int i = 0;i<t;i++) {
-                targets.add(Integer.parseInt(br.readLine()));
+                targets.add(reader.nextInt());
             }
 
             int[][] distanceS = new int[4][n + 1];
@@ -133,6 +132,50 @@ public class Main {
         @Override
         public int compareTo(Node o) {
             return Integer.compare(this.value, o.value);
+        }
+    }
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') {
+                c = read();
+            }
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            return ret;
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) {
+                buffer[0] = -1;
+            }
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) {
+                fillBuffer();
+            }
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din != null) {
+                din.close();
+            }
         }
     }
 
