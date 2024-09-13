@@ -14,31 +14,17 @@ class Solution {
             Arrays.fill(chars, ' ');
         }
 
-        for(int i =0;i<words.length;i++) {
+        for(int i = 0;i < words.length;i++) {
             String word = words[i];
             for(int j= 0;j<word.length();j++) {
                 result[j][i] = word.charAt(j);
             }
         }
-        for(int i = 0;i<result.length;i++) 
-        System.out.println(Arrays.toString(result[i]));
 
         return Arrays.stream(result)
             .map(ary -> new String(ary).stripTrailing())
             .toList();
 
-        
-
-
-
-        // HOWWW
-        // ARE
-        // YOU
-
-        // HAY
-        // ..
-        // W
-        // W
-        // return null;
+    
     }
 }
