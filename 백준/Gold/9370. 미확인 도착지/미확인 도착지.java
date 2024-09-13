@@ -1,10 +1,9 @@
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,13 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TreeSet;
 
 public class Main {
 
-    static Map<Integer, PriorityQueue<Edge>> map;
+    static Map<Integer, List<Edge>> map;
 
     static class Edge implements Comparable<Edge> {
         int to, distance;
@@ -46,7 +42,7 @@ public class Main {
             int t = reader.nextInt();
 
             for(int i = 1;i<=n;i++) {
-                map.put(i, new PriorityQueue<>());
+                map.put(i, new ArrayList<>());
             }
 
             int s = reader.nextInt();
@@ -97,13 +93,9 @@ public class Main {
                     }
                 }
             }
-//            for(int i= 0;i<4;i++) {
-//                System.out.println(Arrays.toString(distanceS[i]));
-//            }
             Collections.sort(targets);
             a: for (Integer target : targets) {
                 if(distanceS[3][target]== INIT) continue;
-
 
                 int should = distanceS[3][target];
                 for(int i = 0;i<3;i++) {
