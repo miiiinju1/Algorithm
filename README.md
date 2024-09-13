@@ -23,6 +23,7 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 | ------- |
 | [0005-longest-palindromic-substring](https://github.com/miiiinju1/Algorithm/tree/master/0005-longest-palindromic-substring) |
 | [1449-print-words-vertically](https://github.com/miiiinju1/Algorithm/tree/master/1449-print-words-vertically) |
+| [1472-increasing-decreasing-string](https://github.com/miiiinju1/Algorithm/tree/master/1472-increasing-decreasing-string) |
 ## Dynamic Programming
 |  |
 | ------- |
@@ -31,4 +32,12 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [1449-print-words-vertically](https://github.com/miiiinju1/Algorithm/tree/master/1449-print-words-vertically) |
+## Hash Table
+|  |
+| ------- |
+| [1472-increasing-decreasing-string](https://github.com/miiiinju1/Algorithm/tree/master/1472-increasing-decreasing-string) |
+## Counting
+|  |
+| ------- |
+| [1472-increasing-decreasing-string](https://github.com/miiiinju1/Algorithm/tree/master/1472-increasing-decreasing-string) |
 <!---LeetCode Topics End-->
