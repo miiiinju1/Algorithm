@@ -4,36 +4,46 @@ class Solution {
         int lo = 0;
         int hi = 1;
         char[] ary = s.toCharArray();
-        Set<Character> temp = new HashSet<>();
+        int max = 1;
+        int[] lastIndex = new int[128];
+        Arrays.fill(lastIndex, -1);
+
         if(s.length()==0) {
             return 0;
         }
-        temp.add(ary[0]);
+        lastIndex[ary[0]] = 0;
 
-        // a b
+        // O(n)
+        // a b c a
+        // a 0
+        // b 1
+        // c 2
 
-        /// a a 
+        // 이 떄 lo = 0, hi = 3
 
-        // 
+        // hi가 a였어요, 그러면 lastIndex[aIndex] = 0, lo = 0
 
-        // a b c a b c
+        // a b c a ... a
 
-        int max = 1;
+        // a b c a 
+        // lo = 1만들고
+
+        // 다음 loop에서 b c, a가 들어가요
         while (hi < ary.length) {
-
             char now = ary[hi];
 
-            if(temp.contains(now)) {
-                // lo를 늘리면서 temp에서 뺴기
-                temp.remove(ary[lo++]);
-            } else {
-                // 들어가도 되면 hi넣고 hi증가키기
-                temp.add(now);
-                ++hi;
+
+            // 포함된 경우를 따질 때는
+            // lastIndex가 -1이 아니면서,  lo가 lastIndex보다 커야합니다.
+            if (lastIndex[now]!=-1 && lastIndex[now] >= lo) {
+                lo = lastIndex[now] + 1;
             }
+            lastIndex[now] = hi++;
+            // hi가 1이고, lo가 0이면 1이지 않나요?
+            // hi가 넣어보려는 대상으로 삼아서
 
-            max = Math.max(temp.size(), max);
-
+            // 현재까지 들어가있는게 lo ~ hi-1
+            max = Math.max((hi-lo), max);
         }
 
         // 만약 다음 hi가 temp에 이미 있다면
@@ -53,6 +63,7 @@ class Solution {
 
 
         // 반복은 hi가 < ary.length 까지만 반복하면 될 것 같아요
+
         return max;
     }
 }
