@@ -9,11 +9,13 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 | [0027-remove-element](https://github.com/miiiinju1/Algorithm/tree/master/0027-remove-element) |
 | [0036-valid-sudoku](https://github.com/miiiinju1/Algorithm/tree/master/0036-valid-sudoku) |
 | [0056-merge-intervals](https://github.com/miiiinju1/Algorithm/tree/master/0056-merge-intervals) |
+| [0274-h-index](https://github.com/miiiinju1/Algorithm/tree/master/0274-h-index) |
 | [1449-print-words-vertically](https://github.com/miiiinju1/Algorithm/tree/master/1449-print-words-vertically) |
 ## Sorting
 |  |
 | ------- |
 | [0056-merge-intervals](https://github.com/miiiinju1/Algorithm/tree/master/0056-merge-intervals) |
+| [0274-h-index](https://github.com/miiiinju1/Algorithm/tree/master/0274-h-index) |
 ## Two Pointers
 |  |
 | ------- |
@@ -52,4 +54,8 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [0003-longest-substring-without-repeating-characters](https://github.com/miiiinju1/Algorithm/tree/master/0003-longest-substring-without-repeating-characters) |
+## Counting Sort
+|  |
+| ------- |
+| [0274-h-index](https://github.com/miiiinju1/Algorithm/tree/master/0274-h-index) |
 <!---LeetCode Topics End-->
