@@ -1,22 +1,48 @@
 class Solution {
     public int jump(int[] nums) {
-        // 먼저 dp 배열을 1차원으로 만든다
-        int[] dp = new int[nums.length];
-        Arrays.fill(dp, Integer.MAX_VALUE);
+        if(nums.length==1) {
 
-        // dp는, 처음에 Integer.MAX_VALUE로 초기화해두고, dp는 해당 지점에 도달할 수 있는 최소 점프 수를 저장하게 하는데
-        dp[0] = 0;
+            return 0;
 
+
+        }
+         int[] ary = new int[nums.length];
         for(int i= 0;i<nums.length;++i) {
-            if(dp[i] == Integer.MAX_VALUE) continue;
+            int max = Math.min(nums[i]+i, nums.length);
+            ary[i] = max;
+        }
+        //        farest? = [2,4,3,4,4];
 
-            int J = nums[i];// 최대 점프가능 횟수일테니
-            for(int j= i;j<=Math.min(i+J, nums.length-1);++j) {
-                dp[j] = Math.min(dp[j], dp[i]+1);
+        // 첫 지점부터 가면서 maxIndex를 갱신시켜가면서 canGoFar이란 값이 nums.length-1이 될 때까지 반복한다?
+
+
+        
+        int count = 1;
+        int canGoFar = Math.min(nums.length-1, ary[0]);
+        if(canGoFar == nums.length-1) {
+            return count;
+        }
+        int i = 1;
+                    System.out.println(canGoFar);
+
+        while(true) {
+
+            int nowGoFar = canGoFar;
+            for(;i<=nowGoFar;++i) {
+                canGoFar = Math.max(canGoFar, Math.min(nums.length-1,nums[i] + i));
+                System.out.println(i+":" +canGoFar);
+
+            }
+            System.out.println(canGoFar);
+            System.out.println(count);
+            ++count;
+
+            if(canGoFar == nums.length-1) {
+                break;
             }
         }
 
-        // 각 지점 i에 도착하면 nums[i], 즉 j만큼 점프 횟수를 추가해서 넣어보고, 각 최소 접프로 도달할 수 있으면 갱신하는 방식으로 풀 것 같습니다
-        return dp[nums.length-1];
-    } 
+        return count;
+
+    }
 }
