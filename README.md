@@ -9,6 +9,7 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 | [0001-two-sum](https://github.com/miiiinju1/Algorithm/tree/master/0001-two-sum) |
 | [0027-remove-element](https://github.com/miiiinju1/Algorithm/tree/master/0027-remove-element) |
 | [0036-valid-sudoku](https://github.com/miiiinju1/Algorithm/tree/master/0036-valid-sudoku) |
+| [0045-jump-game-ii](https://github.com/miiiinju1/Algorithm/tree/master/0045-jump-game-ii) |
 | [0056-merge-intervals](https://github.com/miiiinju1/Algorithm/tree/master/0056-merge-intervals) |
 | [0073-set-matrix-zeroes](https://github.com/miiiinju1/Algorithm/tree/master/0073-set-matrix-zeroes) |
 | [0274-h-index](https://github.com/miiiinju1/Algorithm/tree/master/0274-h-index) |
@@ -34,6 +35,7 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [0005-longest-palindromic-substring](https://github.com/miiiinju1/Algorithm/tree/master/0005-longest-palindromic-substring) |
+| [0045-jump-game-ii](https://github.com/miiiinju1/Algorithm/tree/master/0045-jump-game-ii) |
 ## Simulation
 |  |
 | ------- |
@@ -63,4 +65,8 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [0274-h-index](https://github.com/miiiinju1/Algorithm/tree/master/0274-h-index) |
+## Greedy
+|  |
+| ------- |
+| [0045-jump-game-ii](https://github.com/miiiinju1/Algorithm/tree/master/0045-jump-game-ii) |
 <!---LeetCode Topics End-->
