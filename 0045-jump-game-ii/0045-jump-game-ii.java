@@ -23,18 +23,12 @@ class Solution {
             return count;
         }
         int i = 1;
-                    System.out.println(canGoFar);
 
         while(true) {
-
             int nowGoFar = canGoFar;
             for(;i<=nowGoFar;++i) {
                 canGoFar = Math.max(canGoFar, Math.min(nums.length-1,nums[i] + i));
-                System.out.println(i+":" +canGoFar);
-
             }
-            System.out.println(canGoFar);
-            System.out.println(count);
             ++count;
 
             if(canGoFar == nums.length-1) {
