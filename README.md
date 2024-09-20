@@ -69,4 +69,8 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [0045-jump-game-ii](https://github.com/miiiinju1/Algorithm/tree/master/0045-jump-game-ii) |
+## Concurrency
+|  |
+| ------- |
+| [1186-building-h2o](https://github.com/miiiinju1/Algorithm/tree/master/1186-building-h2o) |
 <!---LeetCode Topics End-->
