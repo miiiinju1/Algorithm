@@ -38,9 +38,7 @@ class Solution {
  */
 
     public boolean dfs(TreeNode now, long left, long right) {
-
-
-        System.out.println(now.val+" "+left+" "+right);
+        long val = now.val;
         // left 1, right3 인 상황에서 left탐색을 한다면 1,1
         if(left == right) {
             if(now.val != left) {
