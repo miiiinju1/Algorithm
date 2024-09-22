@@ -88,4 +88,20 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [0208-implement-trie-prefix-tree](https://github.com/miiiinju1/Algorithm/tree/master/0208-implement-trie-prefix-tree) |
+## Tree
+|  |
+| ------- |
+| [0230-kth-smallest-element-in-a-bst](https://github.com/miiiinju1/Algorithm/tree/master/0230-kth-smallest-element-in-a-bst) |
+## Depth-First Search
+|  |
+| ------- |
+| [0230-kth-smallest-element-in-a-bst](https://github.com/miiiinju1/Algorithm/tree/master/0230-kth-smallest-element-in-a-bst) |
+## Binary Search Tree
+|  |
+| ------- |
+| [0230-kth-smallest-element-in-a-bst](https://github.com/miiiinju1/Algorithm/tree/master/0230-kth-smallest-element-in-a-bst) |
+## Binary Tree
+|  |
+| ------- |
+| [0230-kth-smallest-element-in-a-bst](https://github.com/miiiinju1/Algorithm/tree/master/0230-kth-smallest-element-in-a-bst) |
 <!---LeetCode Topics End-->
