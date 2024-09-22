@@ -92,11 +92,13 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [0098-validate-binary-search-tree](https://github.com/miiiinju1/Algorithm/tree/master/0098-validate-binary-search-tree) |
+| [0199-binary-tree-right-side-view](https://github.com/miiiinju1/Algorithm/tree/master/0199-binary-tree-right-side-view) |
 | [0230-kth-smallest-element-in-a-bst](https://github.com/miiiinju1/Algorithm/tree/master/0230-kth-smallest-element-in-a-bst) |
 ## Depth-First Search
 |  |
 | ------- |
 | [0098-validate-binary-search-tree](https://github.com/miiiinju1/Algorithm/tree/master/0098-validate-binary-search-tree) |
+| [0199-binary-tree-right-side-view](https://github.com/miiiinju1/Algorithm/tree/master/0199-binary-tree-right-side-view) |
 | [0230-kth-smallest-element-in-a-bst](https://github.com/miiiinju1/Algorithm/tree/master/0230-kth-smallest-element-in-a-bst) |
 ## Binary Search Tree
 |  |
@@ -107,5 +109,10 @@ This is a auto push repository for Baekjoon Online Judge created with BaekjoonHu
 |  |
 | ------- |
 | [0098-validate-binary-search-tree](https://github.com/miiiinju1/Algorithm/tree/master/0098-validate-binary-search-tree) |
+| [0199-binary-tree-right-side-view](https://github.com/miiiinju1/Algorithm/tree/master/0199-binary-tree-right-side-view) |
 | [0230-kth-smallest-element-in-a-bst](https://github.com/miiiinju1/Algorithm/tree/master/0230-kth-smallest-element-in-a-bst) |
+## Breadth-First Search
+|  |
+| ------- |
+| [0199-binary-tree-right-side-view](https://github.com/miiiinju1/Algorithm/tree/master/0199-binary-tree-right-side-view) |
 <!---LeetCode Topics End-->
