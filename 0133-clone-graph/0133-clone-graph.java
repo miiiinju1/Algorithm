@@ -81,8 +81,8 @@ class Solution {
                     nodes[child.val] = new Node(child.val);
                 }
                 Node newNode = nodes[child.val];
-                System.out.println(newNode.val+"->"+target.val);
-                System.out.println(target.val+"->"+newNode.val);
+                // System.out.println(newNode.val+"->"+target.val);
+                // System.out.println(target.val+"->"+newNode.val);
 
                 newNode.neighbors.add(target);
                 target.neighbors.add(newNode);
