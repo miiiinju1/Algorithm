@@ -36,35 +36,7 @@ class Solution {
         nodes[1] = newRoot;
         dfs(node, newRoot, visited, nodes);
 
-        System.out.println(newRoot.neighbors);
-
-        HashSet<Integer> temp = new HashSet<>();
-        
-
-        temp.add(1);
-        dfs(newRoot, temp);
-
         return newRoot;
-    }
-
-
-    private void dfs(Node now, Set<Integer> visited) {
-        List<Integer> children = new ArrayList<>();
-
-        System.out.println("size:"+now.neighbors.size());
-        for(Node child : now.neighbors) {
-            children.add(child.val);
-        }
-
-        System.out.println(children);
-        for(Node child : now.neighbors) {
-            if(!visited.contains(child.val)) {
-                visited.add(child.val);
-                dfs(child,visited);
-            }
-
-
-        }
     }
 
     // 여기 들어오기 전에, 자식을 now로 ㄴ허기 전에, 같은 자리에 target에도 복사를 한 후 만들거같은데
