@@ -26,7 +26,6 @@ class Solution {
             return null;
         }
 
-
         boolean[][] visited = new boolean[101][101];
 
         Node newRoot = new Node(node.val);
@@ -53,8 +52,6 @@ class Solution {
                     nodes[child.val] = new Node(child.val);
                 }
                 Node newNode = nodes[child.val];
-                // System.out.println(newNode.val+"->"+target.val);
-                // System.out.println(target.val+"->"+newNode.val);
 
                 newNode.neighbors.add(target);
                 target.neighbors.add(newNode);
