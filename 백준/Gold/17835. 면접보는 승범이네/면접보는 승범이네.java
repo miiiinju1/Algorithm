@@ -1,4 +1,6 @@
+
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -41,12 +43,11 @@ public class Main {
         }
     }
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        var st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+        Reader reader = new Reader();
+        int N = reader.nextInt();
+        int M = reader.nextInt();
+        int K = reader.nextInt();
 
 
         for (int i = 1; i <= N; ++i) {
@@ -54,11 +55,10 @@ public class Main {
         }
 
         for(int i= 0;i<M;++i) {
-            st = new StringTokenizer(br.readLine());
 
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
+            int u = reader.nextInt();
+            int v = reader.nextInt();
+            int c = reader.nextInt();
 
             // u -> v
 
@@ -70,9 +70,8 @@ public class Main {
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
 
-        st = new StringTokenizer(br.readLine());
         for (int i = 0; i < K; ++i) {
-            int l = Integer.parseInt(st.nextToken());
+            int l = reader.nextInt();
             pq.add(new Node(l, 0));
             distance[l] = 0;
         }
@@ -110,4 +109,48 @@ public class Main {
 
     }
 
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') {
+                c = read();
+            }
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            return ret;
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) {
+                buffer[0] = -1;
+            }
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) {
+                fillBuffer();
+            }
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din != null) {
+                din.close();
+            }
+        }
+    }
 }
